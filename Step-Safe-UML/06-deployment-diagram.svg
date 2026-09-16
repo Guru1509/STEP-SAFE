@@ -1,0 +1,343 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1660"
+     height="1150"
+     viewBox="0 0 1660 1150">
+
+  <!-- =====================================================
+       DEFINITIONS & STYLES
+       ===================================================== -->
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; fill: #475569; text-anchor: middle; }
+      .node-stereo { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-style: italic; fill: #475569; text-anchor: middle; }
+      .node-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .node-sub { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #334155; text-anchor: middle; }
+      .art-box { fill: #ffffff; stroke: #475569; stroke-width: 1.5; rx: 4px; }
+      .art-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #0f172a; }
+      .art-sub { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #475569; }
+      .proto-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #1e40af; }
+      .proto-line { stroke: #1e293b; stroke-width: 2; fill: none; }
+      .cloud-line { stroke: #7c3aed; stroke-width: 2; fill: none; }
+      .legend-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: bold; fill: #0f172a; }
+    </style>
+
+    <marker id="arrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#1e293b"/>
+    </marker>
+
+    <marker id="arrowPurple"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1660" height="1150" fill="#ffffff"/>
+
+  <!-- Diagram Titles -->
+  <text x="830" y="42" class="title">STEP-SAFE — DEPLOYMENT DIAGRAM</text>
+  <text x="830" y="68" class="subtitle">Hardware Nodes, Local Network Topology, Flask Execution Environment, and Mobile Notification Service</text>
+
+  <!-- =====================================================
+       NODE 1: ESP32 HARDWARE NODE (LEFT)
+       3D Box: Origin (50, 150), width 390, height 680, depth 25
+       ===================================================== -->
+  <g id="node-esp32">
+    <!-- 3D Top Face -->
+    <polygon points="50,150 75,125 465,125 440,150" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <!-- 3D Right Face -->
+    <polygon points="440,150 465,125 465,805 440,830" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+    <!-- Front Face -->
+    <rect x="50" y="150" width="390" height="680" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+
+    <!-- Header -->
+    <text x="245" y="175" class="node-stereo">«device»</text>
+    <text x="245" y="196" class="node-title">ESP32 Controller Node</text>
+    <text x="245" y="213" class="node-sub">Microcontroller Board: ESP32 Dev Module</text>
+    <text x="245" y="228" class="node-sub" font-weight="bold" fill="#166534">Wi-Fi SoftAP: "STEP-SAFE" (192.168.4.1)</text>
+
+    <!-- Artifact: ESP32 Firmware -->
+    <g transform="translate(70, 245)">
+      <rect width="350" height="100" class="art-box" fill="#ffffff" stroke="#16a34a"/>
+      <!-- Artifact symbol -->
+      <rect x="315" y="10" width="22" height="16" fill="#ffffff" stroke="#16a34a" stroke-width="1.2"/>
+      <line x1="315" y1="14" x2="330" y2="14" stroke="#16a34a" stroke-width="1"/>
+      <text x="15" y="24" class="art-title" fill="#15803d">«artifact» STEP_SAFE_ESP32.ino.bin</text>
+      <text x="15" y="44" class="art-sub">• FreeRTOS / Arduino C++ Firmware</text>
+      <text x="15" y="60" class="art-sub">• 20-Sample Calibration Driver &amp; Timer State</text>
+      <text x="15" y="76" class="art-sub">• 30-Second Sustained Pressure Local Alarm Logic</text>
+      <text x="15" y="92" class="art-sub">• HTTP Client POST /api/readings (sendInterval: 1000ms)</text>
+    </g>
+
+    <!-- Connected Peripheral 1: FSR Pressure Sensor -->
+    <g transform="translate(70, 360)">
+      <rect width="350" height="85" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+      <text x="15" y="22" class="art-title">«sensor» FSR Pressure Sensor</text>
+      <text x="15" y="40" class="art-sub">• Interlink 402 Force Sensing Resistor</text>
+      <text x="15" y="56" class="art-sub">• 10 kΩ Voltage Divider connected to 3.3V &amp; GND</text>
+      <text x="15" y="74" class="art-sub" font-weight="bold" fill="#0f172a">• Wired to ESP32 Pin: GPIO 34 (ADC1_CH6)</text>
+    </g>
+
+    <!-- Connected Peripheral 2: LM35 Temperature Sensor -->
+    <g transform="translate(70, 460)">
+      <rect width="350" height="85" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+      <text x="15" y="22" class="art-title">«sensor» LM35 Temperature Sensor</text>
+      <text x="15" y="40" class="art-sub">• Precision Centigrade Temperature Sensor (10 mV/°C)</text>
+      <text x="15" y="56" class="art-sub">• 5V / 3.3V Power Rail &amp; Common GND</text>
+      <text x="15" y="74" class="art-sub" font-weight="bold" fill="#0f172a">• Wired to ESP32 Pin: GPIO 35 (ADC1_CH7)</text>
+    </g>
+
+    <!-- Connected Peripheral 3: Active Buzzer -->
+    <g transform="translate(70, 560)">
+      <rect width="350" height="85" rx="6" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="15" y="22" class="art-title" fill="#991b1b">«actuator» Active Buzzer</text>
+      <text x="15" y="40" class="art-sub">• Audible Alert Indicator (5V / 3.3V Piezo)</text>
+      <text x="15" y="56" class="art-sub">• Triggers after 30 seconds of sustained pressure</text>
+      <text x="15" y="74" class="art-sub" font-weight="bold" fill="#dc2626">• Driven by ESP32 Pin: GPIO 25 (Digital Output)</text>
+    </g>
+
+    <!-- Internal Wiring Details -->
+    <g transform="translate(70, 660)">
+      <rect width="350" height="150" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+      <text x="15" y="20" class="art-title">Hardware Pinout Reference:</text>
+      <text x="15" y="42" class="comp-body">• GPIO 34: FSR Voltage Divider In (ADC1)</text>
+      <text x="15" y="62" class="comp-body">• GPIO 35: LM35 Sensor Output In (ADC1)</text>
+      <text x="15" y="82" class="comp-body">• GPIO 25: Buzzer Transistor Driver Out</text>
+      <text x="15" y="102" class="comp-body">• Wi-Fi AP: 802.11 b/g/n (No Internet Required)</text>
+      <text x="15" y="122" class="comp-body">• SoftAP IP: 192.168.4.1 (Static)</text>
+      <text x="15" y="140" class="comp-body">• DHCP Range: 192.168.4.2 - 192.168.4.10</text>
+    </g>
+  </g>
+
+  <!-- =====================================================
+       NODE 2: MACBOOK SERVER NODE (CENTER)
+       3D Box: Origin (530, 130), width 450, height 700, depth 25
+       ===================================================== -->
+  <g id="node-macbook">
+    <!-- 3D Top Face -->
+    <polygon points="530,130 555,105 1005,105 980,130" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+    <!-- 3D Right Face -->
+    <polygon points="980,130 1005,105 1005,805 980,830" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+    <!-- Front Face -->
+    <rect x="530" y="130" width="450" height="700" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+
+    <!-- Header -->
+    <text x="755" y="155" class="node-stereo">«device»</text>
+    <text x="755" y="176" class="node-title">MacBook (Host Server Node)</text>
+    <text x="755" y="193" class="node-sub">OS: macOS | Station IP: 192.168.4.2 (en0 Wi-Fi)</text>
+    <text x="755" y="208" class="node-sub" font-weight="bold" fill="#1e40af">Connected to STEP-SAFE Wi-Fi Network</text>
+
+    <!-- Execution Environment Box: Python Runtime -->
+    <g transform="translate(555, 225)">
+      <rect width="400" height="585" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+      <text x="200" y="22" class="node-stereo" fill="#2563eb">«execution environment»</text>
+      <text x="200" y="42" class="node-title" font-size="14">Python 3.10+ Virtual Environment (.venv)</text>
+
+      <!-- Artifact 1: app.py (Flask Web Application) -->
+      <g transform="translate(15, 60)">
+        <rect width="370" height="185" rx="6" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+        <text x="15" y="24" class="art-title" fill="#1e40af">«artifact» app.py (Flask Backend Server)</text>
+        <text x="15" y="44" class="art-sub">• Port: 5000 (Listens on 0.0.0.0:5000)</text>
+        <text x="15" y="62" class="art-sub">• REST API Routes: /api/readings, /api/calibrate,</text>
+        <text x="25" y="76" class="art-sub">/api/live, /api/history, /api/device-config</text>
+        <text x="15" y="94" class="art-sub">• Calibration Engine: Computes 20-sample Baselines</text>
+        <text x="25" y="108" class="art-sub">&amp; Thresholds (FSR base+20% min 100, Temp +2°C)</text>
+        <text x="15" y="126" class="art-sub">• 30-Second Sustained Pressure Timer &amp; Risk Evaluator</text>
+        <text x="15" y="144" class="art-sub">• Alert Dispatcher: Generates High Pressure &amp; High Risk Events</text>
+        <text x="15" y="162" class="art-sub">• Profile Management: Patient, Caregiver, and Admin Roles</text>
+        <text x="15" y="178" class="art-sub">• Multi-Client Responsive Web Dashboard Host</text>
+      </g>
+
+      <!-- Artifact 2: step_safe.db (SQLite Database) -->
+      <g transform="translate(15, 260)">
+        <rect width="370" height="145" rx="6" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+        <text x="15" y="24" class="art-title">«artifact» step_safe.db (SQLite 3 Database)</text>
+        <text x="15" y="44" class="art-sub">• Local relational database file on MacBook disk</text>
+        <text x="15" y="62" class="art-sub">• Table `readings`: (id, device_id, fsr, temp, timestamp)</text>
+        <text x="15" y="80" class="art-sub">• Table `calibrations`: (fsr_baseline, fsr_threshold,</text>
+        <text x="25" y="94" class="art-sub">temp_baseline, temp_threshold, calibrated_at)</text>
+        <text x="15" y="112" class="art-sub">• Table `events`: (id, device_id, event_type, peak_fsr, peak_temp, time)</text>
+        <text x="15" y="130" class="art-sub">• Table `profiles` &amp; `notifications`: roles &amp; dispatch logs</text>
+      </g>
+
+      <!-- Artifact 3: Web Dashboard UI Artifacts (Updated: custom SVG charts with static/dashboard.js) -->
+      <g transform="translate(15, 420)">
+        <rect width="370" height="145" rx="6" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5"/>
+        <text x="15" y="24" class="art-title" fill="#2563eb">«artifact» Web Dashboard Client Bundle</text>
+        <text x="15" y="44" class="art-sub">• templates/index.html (HTML5 Semantic Structure)</text>
+        <text x="15" y="62" class="art-sub">• static/style.css (Responsive Desktop &amp; Mobile Styles)</text>
+        <text x="15" y="80" class="art-sub" font-weight="bold" fill="#1d4ed8">• static/dashboard.js (Telemetry &amp; Custom SVG Charts)</text>
+        <text x="15" y="98" class="art-sub">• Custom SVG history charts rendered in pure JavaScript</text>
+        <text x="15" y="116" class="art-sub">• 30-second horizontal timer progress bar</text>
+        <text x="15" y="134" class="art-sub">• Visual Alert Banner &amp; Audio Alarm Tone Player</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- =====================================================
+       COMMUNICATION PATH 1: ESP32 <-> MACBOOK (LOCAL AIR-GAPPED WI-FI)
+       ===================================================== -->
+  <line x1="440" y1="310" x2="530" y2="310" class="proto-line"/>
+  <rect x="445" y="255" width="80" height="48" rx="4" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.2"/>
+  <text x="485" y="272" font-family="'Segoe UI', Arial" font-size="10" font-weight="bold" fill="#1e40af" text-anchor="middle">Local Wi-Fi</text>
+  <text x="485" y="286" font-family="'Segoe UI', Arial" font-size="10" fill="#1e40af" text-anchor="middle">HTTP POST</text>
+  <text x="485" y="299" font-family="'Segoe UI', Arial" font-size="9" fill="#047857" text-anchor="middle">[No Internet]</text>
+
+  <!-- =====================================================
+       NODE 3: PATIENT MOBILE DEVICE (TOP RIGHT)
+       3D Box: Origin (1080, 130), width 340, height 260, depth 20
+       ===================================================== -->
+  <g id="node-patient-mobile">
+    <!-- 3D Top Face -->
+    <polygon points="1080,130 1100,110 1440,110 1420,130" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+    <!-- 3D Right Face -->
+    <polygon points="1420,130 1440,110 1440,370 1420,390" fill="#cbd5e1" stroke="#334155" stroke-width="2"/>
+    <!-- Front Face -->
+    <rect x="1080" y="130" width="340" height="260" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+
+    <!-- Header -->
+    <text x="1250" y="155" class="node-stereo">«device»</text>
+    <text x="1250" y="176" class="node-title">Patient Mobile Device</text>
+    <text x="1250" y="193" class="node-sub">Smartphone (iOS / Android Safari / Chrome)</text>
+    <text x="1250" y="208" class="node-sub">Connected to STEP-SAFE Wi-Fi (192.168.4.3)</text>
+
+    <!-- Artifact: Mobile Web Dashboard -->
+    <g transform="translate(1100, 220)">
+      <rect width="300" height="75" class="art-box" fill="#eff6ff" stroke="#2563eb"/>
+      <text x="15" y="22" class="art-title" fill="#1e40af">«artifact» Mobile Web Dashboard</text>
+      <text x="15" y="42" class="art-sub">• Responsive Touch-Optimized UI</text>
+      <text x="15" y="58" class="art-sub">• Live Pressure &amp; Temp Display / 30s Horizontal Timer Bar</text>
+      <text x="15" y="70" class="art-sub">• High Pressure &amp; High Risk Visual Alerts</text>
+    </g>
+
+    <!-- Push Receiver -->
+    <g transform="translate(1100, 305)">
+      <rect width="300" height="65" rx="4" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.2"/>
+      <text x="15" y="20" class="art-title" fill="#6d28d9">Push Notification Client</text>
+      <text x="15" y="38" class="art-sub" fill="#7c3aed">• System Push Notification Listener (APNs / FCM)</text>
+      <text x="15" y="54" class="art-sub" fill="#7c3aed">• Alerts patient on sustained pressure via Internet</text>
+    </g>
+  </g>
+
+  <!-- Communication Path 2: MacBook <-> Patient Mobile -->
+  <path d="M 980 230 L 1080 230" class="proto-line"/>
+  <text x="1030" y="222" font-family="'Segoe UI', Arial" font-size="10" font-weight="bold" fill="#1e40af" text-anchor="middle">HTTP GET :5000</text>
+
+  <!-- =====================================================
+       NODE 4: CAREGIVER MOBILE DEVICE (MIDDLE RIGHT)
+       3D Box: Origin (1080, 430), width 340, height 260, depth 20
+       ===================================================== -->
+  <g id="node-caregiver-mobile">
+    <!-- 3D Top Face -->
+    <polygon points="1080,430 1100,410 1440,410 1420,430" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+    <!-- 3D Right Face -->
+    <polygon points="1420,430 1440,410 1440,670 1420,690" fill="#cbd5e1" stroke="#334155" stroke-width="2"/>
+    <!-- Front Face -->
+    <rect x="1080" y="430" width="340" height="260" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+
+    <!-- Header -->
+    <text x="1250" y="455" class="node-stereo">«device»</text>
+    <text x="1250" y="476" class="node-title">Caregiver Mobile Device</text>
+    <text x="1250" y="493" class="node-sub">Smartphone / Tablet / Clinician Laptop</text>
+    <text x="1250" y="508" class="node-sub">Connected via Local Wi-Fi / Browser</text>
+
+    <!-- Artifact: Caregiver Dashboard View -->
+    <g transform="translate(1100, 520)">
+      <rect width="300" height="75" class="art-box" fill="#eff6ff" stroke="#2563eb"/>
+      <text x="15" y="22" class="art-title" fill="#1e40af">«artifact» Caregiver Dashboard View</text>
+      <text x="15" y="42" class="art-sub">• Multi-Patient Monitoring Telemetry</text>
+      <text x="15" y="58" class="art-sub">• Real-time SVG graphs &amp; threshold statuses</text>
+      <text x="15" y="70" class="art-sub">• Historical Alert Logs &amp; Event Analysis</text>
+    </g>
+
+    <!-- Push Receiver -->
+    <g transform="translate(1100, 605)">
+      <rect width="300" height="65" rx="4" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.2"/>
+      <text x="15" y="20" class="art-title" fill="#6d28d9">Caregiver Alert Client</text>
+      <text x="15" y="38" class="art-sub" fill="#7c3aed">• Push Notification Receiver (APNs / FCM)</text>
+      <text x="15" y="54" class="art-sub" fill="#7c3aed">• Immediate alerts for HIGH PRESSURE / HIGH RISK</text>
+    </g>
+  </g>
+
+  <!-- Communication Path 3: MacBook <-> Caregiver Mobile -->
+  <path d="M 980 520 L 1080 520" class="proto-line"/>
+  <text x="1030" y="512" font-family="'Segoe UI', Arial" font-size="10" font-weight="bold" fill="#1e40af" text-anchor="middle">HTTP GET :5000</text>
+
+  <!-- =====================================================
+       NODE 5: REMOTE NOTIFICATION SERVICE / API (BOTTOM RIGHT)
+       Origin (1080, 730), width 540, height 260
+       ===================================================== -->
+  <g id="node-mobile-service">
+    <!-- 3D Top Face -->
+    <polygon points="1080,730 1100,710 1640,710 1620,730" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+    <!-- 3D Right Face -->
+    <polygon points="1620,730 1640,710 1640,970 1620,990" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+    <!-- Front Face -->
+    <rect x="1080" y="730" width="540" height="260" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+
+    <!-- Header -->
+    <text x="1350" y="755" class="node-stereo" fill="#7c3aed">«cloud execution environment»</text>
+    <text x="1350" y="776" class="node-title" fill="#5b21b6">Remote Mobile Notification Service / API</text>
+    <text x="1350" y="793" font-family="'Segoe UI', Arial" font-size="12" font-weight="bold" fill="#6d28d9" text-anchor="middle">
+      [FIREBASE CLOUD MESSAGING (FCM) / APPLE PUSH NOTIFICATION (APNs)]
+    </text>
+
+    <!-- Artifact: Cloud Push Gateway -->
+    <g transform="translate(1105, 805)">
+      <rect width="490" height="165" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+      <text x="20" y="24" class="art-title" fill="#6d28d9">«software service» Push Notification Gateway API</text>
+      <text x="20" y="46" class="art-sub">• Apple Push Notification Service (APNs) &amp; Firebase Cloud Messaging (FCM)</text>
+      <text x="20" y="64" class="art-sub">• Triggered asynchronously when Flask detects 30s sustained high pressure</text>
+      <text x="20" y="82" class="art-sub">• Delivers notifications to Patient Mobile Profile and Caregiver Profile</text>
+      <text x="20" y="100" class="art-sub">• Payload: {alert_id, risk_level, peak_pressure, sustained_sec, timestamp}</text>
+      <text x="20" y="122" class="art-sub" font-weight="bold" fill="#7c3aed">Flow: Flask Alert Service ──► Mobile Notification Service ──► Patient / Caregiver Device</text>
+      <text x="20" y="145" class="art-sub" font-weight="bold" fill="#b91c1c">Requirement: Requires Internet Connectivity (External WAN Uplink)</text>
+    </g>
+  </g>
+
+  <!-- Communication Path 4: Flask Backend -> Notification Service (Internet Required) -->
+  <path d="M 980 770 L 1080 770" class="cloud-line" marker-end="url(#arrowPurple)"/>
+  <text x="1030" y="755" font-family="'Segoe UI', Arial" font-size="10" font-weight="bold" fill="#7c3aed" text-anchor="middle">HTTPS API</text>
+  <text x="1030" y="767" font-family="'Segoe UI', Arial" font-size="9" fill="#dc2626" text-anchor="middle">[Internet Req.]</text>
+
+  <!-- Communication Path 5: Service -> Mobile Devices (Push over Internet) -->
+  <path d="M 1420 800 L 1490 800 L 1490 350 L 1420 350" class="cloud-line" marker-end="url(#arrowPurple)"/>
+  <text x="1560" y="550" font-family="'Segoe UI', Arial" font-size="11" font-weight="bold" fill="#7c3aed" text-anchor="middle">Push Channel (APNs / FCM) [Internet Req.]</text>
+  <path d="M 1490 600 L 1420 600" class="cloud-line" marker-end="url(#arrowPurple)"/>
+
+  <!-- =====================================================
+       DIAGRAM LEGEND & DEPLOYMENT DISTINCTION
+       ===================================================== -->
+  <g transform="translate(50, 850)">
+    <rect width="930" height="150" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.8"/>
+    <text x="20" y="26" class="legend-title">NETWORK TOPOLOGY &amp; CONNECTIVITY DISTINCTION</text>
+
+    <!-- Legend Item 1 -->
+    <line x1="25" y1="52" x2="85" y2="52" stroke="#1e293b" stroke-width="2.5"/>
+    <text x="95" y="56" class="art-title">LOCAL AIR-GAPPED MONITORING (STEP-SAFE Wi-Fi — No Internet Required):</text>
+    <text x="95" y="74" class="comp-body">
+      ESP32 hosts local SoftAP ("STEP-SAFE" @ 192.168.4.1). MacBook connects to AP (192.168.4.2) to run Flask &amp; SQLite. Local piezo buzzer alarms on GPIO 25.
+    </text>
+    <text x="95" y="90" class="comp-body">
+      Patient and Caregiver connect directly to local Wi-Fi to access live responsive web dashboard and custom SVG charts without internet access.
+    </text>
+
+    <!-- Legend Item 2 -->
+    <line x1="25" y1="115" x2="85" y2="115" stroke="#7c3aed" stroke-width="2.5"/>
+    <text x="95" y="119" class="art-title" fill="#6d28d9">MOBILE NOTIFICATION SERVICE (Firebase / APNs Push — Internet Required):</text>
+    <text x="95" y="137" class="comp-body" fill="#6d28d9">
+      Cloud push notifications (APNs / FCM) require internet connectivity on the MacBook and mobile devices to dispatch out-of-band alerts.
+    </text>
+  </g>
+
+</svg>

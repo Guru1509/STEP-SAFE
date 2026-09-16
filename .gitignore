@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+*.env
+
+# Firebase / Google service-account credentials
+firebase-key.json
+*-firebase-adminsdk-*.json
+service-account*.json
+google-credentials*.json
+
+# Local database
+*.db
+*.sqlite
+*.sqlite3
+
+# macOS
+.DS_Store
+
+# IDE / editor
+.vscode/
+.idea/
+
+# Logs
+*.log

@@ -1,0 +1,417 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1680"
+     height="1240"
+     viewBox="0 0 1680 1240">
+
+  <!-- =====================================================
+       DEFINITIONS & STYLES
+       ===================================================== -->
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; fill: #475569; text-anchor: middle; }
+      .pkg-tab { rx: 6px; stroke-width: 1.8; }
+      .pkg-body { rx: 10px; stroke-width: 2; }
+      .pkg-name { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: bold; fill: #0f172a; }
+      .pkg-stereo { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; font-style: italic; fill: #475569; }
+      .elem-box { rx: 6px; fill: #ffffff; stroke: #94a3b8; stroke-width: 1.2; }
+      .elem-name { font-family: 'Consolas', 'Courier New', monospace; font-size: 12px; font-weight: 600; fill: #1e293b; }
+      .elem-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #475569; }
+      .dep-line { stroke: #334155; stroke-width: 1.8; stroke-dasharray: 6,4; fill: none; }
+      .dep-alert { stroke: #dc2626; stroke-width: 1.8; stroke-dasharray: 6,4; fill: none; }
+      .dep-notif { stroke: #7c3aed; stroke-width: 1.8; stroke-dasharray: 6,4; fill: none; }
+      .dep-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11.5px; font-style: italic; fill: #475569; text-anchor: middle; }
+    </style>
+
+    <marker id="depArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#334155" stroke-width="1.8"/>
+    </marker>
+
+    <marker id="depAlertArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#dc2626" stroke-width="1.8"/>
+    </marker>
+
+    <marker id="depNotifArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#7c3aed" stroke-width="1.8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1680" height="1240" fill="#ffffff"/>
+
+  <!-- Titles -->
+  <text x="840" y="42" class="title">STEP-SAFE — PACKAGE DIAGRAM</text>
+  <text x="840" y="68" class="subtitle">Architectural Decomposition: 11 Cohesive Software &amp; Firmware Modules and Subsystem Dependencies</text>
+
+  <!-- =====================================================
+       TIER 1: EMBEDDED HARDWARE & SENSORS (COLUMN 1, LEFT)
+       x=50..400
+       ===================================================== -->
+
+  <!-- Package 1: Sensor Module -->
+  <g id="pkg-sensor" transform="translate(50, 140)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="160" height="28" fill="#dcfce7" stroke="#16a34a" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#15803d">Sensor Module</text>
+    <!-- Body -->
+    <rect width="350" height="250" fill="#f0fdf4" stroke="#16a34a" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«firmware package»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="55" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">FSRPressureSensorDriver</text>
+    <text x="25" y="76" class="elem-desc">• GPIO 34 ADC1 Read (10kΩ voltage divider)</text>
+
+    <rect x="15" y="105" width="320" height="55" class="elem-box"/>
+    <text x="25" y="125" class="elem-name">LM35TemperatureSensorDriver</text>
+    <text x="25" y="141" class="elem-desc">• GPIO 35 ADC1 Read (10 mV/°C conversion)</text>
+
+    <rect x="15" y="170" width="320" height="65" class="elem-box"/>
+    <text x="25" y="190" class="elem-name" fill="#dc2626">ActiveBuzzerActuator</text>
+    <text x="25" y="206" class="elem-desc">• GPIO 25 Digital Output Driver</text>
+    <text x="25" y="222" class="elem-desc">• Triggers buzzer on 30s sustained pressure</text>
+  </g>
+
+  <!-- Package 2: ESP32 Firmware Module -->
+  <g id="pkg-esp32" transform="translate(50, 470)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="220" height="28" fill="#dcfce7" stroke="#16a34a" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#15803d">ESP32 Firmware Module</text>
+    <!-- Body -->
+    <rect width="350" height="260" fill="#f0fdf4" stroke="#16a34a" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«device runtime»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="60" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">SoftAPNetworkManager</text>
+    <text x="25" y="76" class="elem-desc">• Starts Wi-Fi SSID "STEP-SAFE" (192.168.4.1)</text>
+    <text x="25" y="90" class="elem-desc">• DHCP Server for connected Mac / Mobile</text>
+
+    <rect x="15" y="110" width="320" height="65" class="elem-box"/>
+    <text x="25" y="130" class="elem-name">LocalSustainedTimerLogic</text>
+    <text x="25" y="146" class="elem-desc">• Counts seconds pressure stays &gt;= threshold</text>
+    <text x="25" y="160" class="elem-desc">• Fires local buzzer alarm when timer &gt;= 30s</text>
+
+    <rect x="15" y="185" width="320" height="60" class="elem-box"/>
+    <text x="25" y="205" class="elem-name">HTTPTelemetryClient</text>
+    <text x="25" y="221" class="elem-desc">• Sends POST /api/readings (sendInterval = 1000ms)</text>
+    <text x="25" y="235" class="elem-desc">• Payload: {"device_id","fsr","temperature"}</text>
+  </g>
+
+  <!-- Dependency: ESP32 Firmware -> Sensor Module -->
+  <line x1="225" y1="470" x2="225" y2="390" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="255" y="435" class="dep-label">«use»</text>
+
+  <!-- =====================================================
+       TIER 2: COMMUNICATION & FLASK BACKEND (COLUMN 2)
+       x=450..800
+       ===================================================== -->
+
+  <!-- Package 3: Communication Module -->
+  <g id="pkg-comm" transform="translate(450, 140)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="210" height="28" fill="#e0f2fe" stroke="#0284c7" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#0369a1">Communication Module</text>
+    <!-- Body -->
+    <rect width="350" height="250" fill="#f0f9ff" stroke="#0284c7" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«protocol package»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="55" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">WiFiNetworkProtocol</text>
+    <text x="25" y="76" class="elem-desc">• 802.11 b/g/n Local Air-Gapped AP</text>
+
+    <rect x="15" y="105" width="320" height="60" class="elem-box"/>
+    <text x="25" y="125" class="elem-name">RESTMessageSerializer</text>
+    <text x="25" y="141" class="elem-desc">• Payload: {"device_id","fsr","temperature"}</text>
+    <text x="25" y="155" class="elem-desc">• Flask calculates status and pressure duration</text>
+
+    <rect x="15" y="175" width="320" height="55" class="elem-box"/>
+    <text x="25" y="195" class="elem-name">HttpTransportChannel</text>
+    <text x="25" y="211" class="elem-desc">• HTTP POST /api/readings, GET /api/live</text>
+  </g>
+
+  <!-- Dependency: ESP32 Firmware -> Communication Module -->
+  <path d="M 400 520 L 480 520 L 480 390" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="450" y="465" class="dep-label">«import»</text>
+
+  <!-- Package 4: Flask Backend Module -->
+  <g id="pkg-flask" transform="translate(450, 470)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="210" height="28" fill="#dbeafe" stroke="#1d4ed8" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#1e40af">Flask Backend Module</text>
+    <!-- Body -->
+    <rect width="350" height="260" fill="#eff6ff" stroke="#1d4ed8" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«backend core»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="60" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">FlaskServerApp</text>
+    <text x="25" y="76" class="elem-desc">• Central HTTP Server running on MacBook :5000</text>
+    <text x="25" y="90" class="elem-desc">• Coordinates telemetry, alerts, and calibration</text>
+
+    <rect x="15" y="110" width="320" height="60" class="elem-box"/>
+    <text x="25" y="130" class="elem-name">ApiRouteDispatcher</text>
+    <text x="25" y="146" class="elem-desc">• /api/readings, /api/calibrate, /api/live</text>
+    <text x="25" y="160" class="elem-desc">• /api/history, /api/device-config, /api/summary</text>
+
+    <rect x="15" y="180" width="320" height="65" class="elem-box"/>
+    <text x="25" y="200" class="elem-name">ServiceOrchestrator</text>
+    <text x="25" y="216" class="elem-desc">• Dispatches tasks to Calibration, Risk,</text>
+    <text x="25" y="232" class="elem-desc">Alert, Database, and User modules</text>
+  </g>
+
+  <!-- Dependency: Flask Backend -> Communication Module -->
+  <line x1="625" y1="470" x2="625" y2="390" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="655" y="435" class="dep-label">«use»</text>
+
+  <!-- Package 10: Database Module (Placed directly beneath Flask Backend) -->
+  <g id="pkg-db" transform="translate(450, 810)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="180" height="28" fill="#e2e8f0" stroke="#475569" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#1e293b">Database Module</text>
+    <!-- Body -->
+    <rect width="350" height="260" fill="#f8fafc" stroke="#475569" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«persistence»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="60" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">SQLiteDatabaseEngine</text>
+    <text x="25" y="76" class="elem-desc">• step_safe.db connection manager</text>
+    <text x="25" y="90" class="elem-desc">• Thread-safe query execution</text>
+
+    <rect x="15" y="110" width="320" height="60" class="elem-box"/>
+    <text x="25" y="130" class="elem-name">TelemetryRepositories</text>
+    <text x="25" y="146" class="elem-desc">• ReadingsRepository (fsr, temp, time)</text>
+    <text x="25" y="160" class="elem-desc">• CalibrationRepository (baselines &amp; thresholds)</text>
+
+    <rect x="15" y="180" width="320" height="65" class="elem-box"/>
+    <text x="25" y="200" class="elem-name">EventAndUserRepositories</text>
+    <text x="25" y="216" class="elem-desc">• EventsRepository (alert history &amp; peaks)</text>
+    <text x="25" y="232" class="elem-desc">• UserProfileRepository (roles &amp; devices)</text>
+  </g>
+
+  <!-- Dependency: Flask Backend -> Database Module -->
+  <line x1="625" y1="730" x2="625" y2="810" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="660" y="775" class="dep-label">«persist»</text>
+
+  <!-- =====================================================
+       TIER 3: CORE DOMAIN & RISK LOGIC (COLUMN 3)
+       x=850..1200
+       ===================================================== -->
+
+  <!-- Package 4: Calibration Module -->
+  <g id="pkg-calib" transform="translate(850, 140)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="190" height="28" fill="#dbeafe" stroke="#1d4ed8" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#1e40af">Calibration Module</text>
+    <!-- Body -->
+    <rect width="350" height="250" fill="#eff6ff" stroke="#1d4ed8" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«domain logic»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="60" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">CalibrationManager</text>
+    <text x="25" y="76" class="elem-desc">• Controls 20-sample zero-pressure baseline</text>
+    <text x="25" y="90" class="elem-desc">• State: UNCALIBRATED / CALIBRATING / READY</text>
+
+    <rect x="15" y="110" width="320" height="60" class="elem-box"/>
+    <text x="25" y="130" class="elem-name">ThresholdComputationEngine</text>
+    <text x="25" y="146" class="elem-desc">• FSR Threshold = Baseline + 20% (min 100)</text>
+    <text x="25" y="160" class="elem-desc">• Temp Threshold = Baseline + 2.0 °C</text>
+
+    <rect x="15" y="180" width="320" height="55" class="elem-box"/>
+    <text x="25" y="200" class="elem-name">BaselineStoreAdapter</text>
+    <text x="25" y="216" class="elem-desc">• Serializes thresholds to Database Module</text>
+  </g>
+
+  <!-- Dependency: Flask Backend -> Calibration Module -->
+  <path d="M 800 490 L 880 490 L 880 390" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="850" y="450" class="dep-label">«delegate»</text>
+
+  <!-- Package 5: Risk Analysis Module -->
+  <g id="pkg-risk" transform="translate(850, 470)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="200" height="28" fill="#fef3c7" stroke="#d97706" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#b45309">Risk Analysis Module</text>
+    <!-- Body -->
+    <rect width="350" height="260" fill="#fffbeb" stroke="#d97706" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«evaluation engine»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="60" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">SustainedPressureTimerTracker</text>
+    <text x="25" y="76" class="elem-desc">• 30-Second Continuous Timer Rule</text>
+    <text x="25" y="90" class="elem-desc">• Auto-resets to 0s upon pressure release</text>
+
+    <rect x="15" y="110" width="320" height="60" class="elem-box"/>
+    <text x="25" y="130" class="elem-name">TemperatureRiskEvaluator</text>
+    <text x="25" y="146" class="elem-desc">• Evaluates if Temp &gt;= Baseline + 2°C</text>
+    <text x="25" y="160" class="elem-desc">• Flags co-occurrence of heat + pressure</text>
+
+    <rect x="15" y="180" width="320" height="65" class="elem-box"/>
+    <text x="25" y="200" class="elem-name">RiskStateClassifier</text>
+    <text x="25" y="216" class="elem-desc">• NORMAL: FSR &lt; Thr | PRESSURE: t &lt; 30s</text>
+    <text x="25" y="232" class="elem-desc">• HIGH PRESSURE: t &gt;= 30s | HIGH RISK: Heat + Press</text>
+  </g>
+
+  <!-- Dependency: Flask Backend -> Risk Analysis Module -->
+  <line x1="800" y1="580" x2="850" y2="580" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="825" y="570" class="dep-label">«evaluate»</text>
+
+  <!-- Package 6: Alert Module -->
+  <g id="pkg-alert" transform="translate(850, 810)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="160" height="28" fill="#fee2e2" stroke="#dc2626" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#991b1b">Alert Module</text>
+    <!-- Body -->
+    <rect width="350" height="260" fill="#fef2f2" stroke="#dc2626" class="pkg-body"/>
+    <text x="330" y="24" class="pkg-stereo" text-anchor="end">«event generator»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="320" height="60" class="elem-box"/>
+    <text x="25" y="60" class="elem-name" fill="#dc2626">AlertManager</text>
+    <text x="25" y="76" class="elem-desc">• Creates High Pressure &amp; High Risk alerts</text>
+    <text x="25" y="90" class="elem-desc">• Records peak sensor metrics &amp; duration</text>
+
+    <rect x="15" y="110" width="320" height="60" class="elem-box"/>
+    <text x="25" y="130" class="elem-name">AlertEventLogger</text>
+    <text x="25" y="146" class="elem-desc">• Persists alert details in SQLite events table</text>
+    <text x="25" y="160" class="elem-desc">• Tracks acknowledgment and resolution</text>
+
+    <rect x="15" y="180" width="320" height="65" class="elem-box"/>
+    <text x="25" y="200" class="elem-name">AlertDispatchBridge</text>
+    <text x="25" y="216" class="elem-desc">• Routes alert event to Notification Module</text>
+    <text x="25" y="232" class="elem-desc">• Triggers UI audio alert and banner state</text>
+  </g>
+
+  <!-- Dependency: Risk Analysis -> Alert Module -->
+  <line x1="1025" y1="730" x2="1025" y2="810" class="dep-alert" marker-end="url(#depAlertArrow)"/>
+  <text x="1065" y="775" class="dep-label" fill="#dc2626">«trigger»</text>
+
+  <!-- Dependency: Alert Module -> Database Module -->
+  <line x1="850" y1="940" x2="800" y2="940" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="825" y="930" class="dep-label">«log»</text>
+
+  <!-- =====================================================
+       TIER 4: USERS, NOTIFICATIONS & DASHBOARD (COLUMN 4)
+       x=1250..1630
+       ===================================================== -->
+
+  <!-- Package 7: User/Profile Module -->
+  <g id="pkg-user" transform="translate(1250, 140)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="200" height="28" fill="#e2e8f0" stroke="#334155" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name">User / Profile Module</text>
+    <!-- Body -->
+    <rect width="360" height="250" fill="#f8fafc" stroke="#334155" class="pkg-body"/>
+    <text x="340" y="24" class="pkg-stereo" text-anchor="end">«identity &amp; roles»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="330" height="55" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">UserAccountManager</text>
+    <text x="25" y="76" class="elem-desc">• Login, registration &amp; session security</text>
+
+    <rect x="15" y="105" width="330" height="60" class="elem-box"/>
+    <text x="25" y="125" class="elem-name">ProfileRoleDefinitions</text>
+    <text x="25" y="141" class="elem-desc">• PatientProfile, CaregiverProfile, AdminProfile</text>
+    <text x="25" y="155" class="elem-desc">• Name, role, contact info, preferences</text>
+
+    <rect x="15" y="175" width="330" height="60" class="elem-box"/>
+    <text x="25" y="195" class="elem-name">DeviceAssignmentManager</text>
+    <text x="25" y="211" class="elem-desc">• Maps Patient to ESP32 device ID</text>
+    <text x="25" y="225" class="elem-desc">• Maps Caregiver to assigned Patients</text>
+  </g>
+
+  <!-- Package 8: Notification Module -->
+  <g id="pkg-notif" transform="translate(1250, 470)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="200" height="28" fill="#ede9fe" stroke="#7c3aed" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#5b21b6">Notification Module</text>
+    <!-- Body -->
+    <rect width="360" height="260" fill="#faf5ff" stroke="#7c3aed" class="pkg-body"/>
+    <text x="340" y="24" class="pkg-stereo" fill="#7c3aed" text-anchor="end">«service package»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="330" height="60" class="elem-box" stroke="#7c3aed"/>
+    <text x="25" y="60" class="elem-name" fill="#6d28d9">MobileNotificationDispatcher</text>
+    <text x="25" y="76" class="elem-desc" fill="#6d28d9">• Push Gateway Client (Firebase FCM / APNs)</text>
+    <text x="25" y="90" class="elem-desc" fill="#6d28d9">• Dispatches alerts on 30s sustained risk</text>
+
+    <rect x="15" y="110" width="330" height="60" class="elem-box" stroke="#7c3aed"/>
+    <text x="25" y="130" class="elem-name" fill="#6d28d9">RecipientRouter</text>
+    <text x="25" y="146" class="elem-desc" fill="#6d28d9">• Resolves patient and assigned caregiver mobile</text>
+    <text x="25" y="160" class="elem-desc" fill="#6d28d9">• Evaluates delivery preferences</text>
+
+    <rect x="15" y="180" width="330" height="65" class="elem-box" stroke="#7c3aed"/>
+    <text x="25" y="200" class="elem-name" fill="#6d28d9">NotificationPayloadFormatter</text>
+    <text x="25" y="216" class="elem-desc" fill="#6d28d9">• Generates alert title, severity, peak FSR, duration</text>
+    <text x="25" y="232" class="elem-desc" fill="#6d28d9">• "Please check the STEP-SAFE dashboard."</text>
+  </g>
+
+  <!-- Dependency: Alert Module -> Notification Module -->
+  <path d="M 1200 890 L 1430 890 L 1430 730" class="dep-notif" marker-end="url(#depNotifArrow)"/>
+  <text x="1350" y="875" class="dep-label" fill="#7c3aed">«dispatches alert»</text>
+
+  <!-- Dependency: Notification Module -> User/Profile Module -->
+  <line x1="1430" y1="470" x2="1430" y2="390" class="dep-notif" marker-end="url(#depNotifArrow)"/>
+  <text x="1465" y="435" class="dep-label" fill="#7c3aed">«reads profile»</text>
+
+  <!-- Package 11: Dashboard Module -->
+  <g id="pkg-dash" transform="translate(1250, 810)">
+    <!-- Tab -->
+    <rect x="0" y="-26" width="180" height="28" fill="#dbeafe" stroke="#2563eb" class="pkg-tab"/>
+    <text x="12" y="-8" class="pkg-name" fill="#1e40af">Dashboard Module</text>
+    <!-- Body -->
+    <rect width="360" height="260" fill="#eff6ff" stroke="#2563eb" class="pkg-body"/>
+    <text x="340" y="24" class="pkg-stereo" text-anchor="end">«presentation»</text>
+
+    <!-- Elements Inside -->
+    <rect x="15" y="40" width="330" height="60" class="elem-box"/>
+    <text x="25" y="60" class="elem-name">ResponsiveLayoutController</text>
+    <text x="25" y="76" class="elem-desc">• templates/index.html &amp; static/style.css</text>
+    <text x="25" y="90" class="elem-desc">• Seamless desktop and mobile browser views</text>
+
+    <rect x="15" y="110" width="330" height="60" class="elem-box"/>
+    <text x="25" y="130" class="elem-name">CustomSvgChartRenderer</text>
+    <text x="25" y="146" class="elem-desc">• static/dashboard.js dynamic SVG history charts</text>
+    <text x="25" y="160" class="elem-desc">• 30-second horizontal timer progress bar</text>
+
+    <rect x="15" y="180" width="330" height="65" class="elem-box"/>
+    <text x="25" y="200" class="elem-name">CalibrationAndAlertWidgets</text>
+    <text x="25" y="216" class="elem-desc">• "Start Calibration" button &amp; 20-sample counter</text>
+    <text x="25" y="232" class="elem-desc">• Audio alarm tone player &amp; visual warning toast</text>
+  </g>
+
+  <!-- Dependency: Dashboard Module -> Flask Backend Module -->
+  <path d="M 1250 960 L 800 960 L 800 730" class="dep-line" marker-end="url(#depArrow)"/>
+  <text x="1000" y="945" class="dep-label">«HTTP REST / JSON API»</text>
+
+  <!-- =====================================================
+       DIAGRAM FOOTNOTE / SUMMARY
+       ===================================================== -->
+  <g transform="translate(50, 1140)">
+    <rect width="1560" height="60" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="25" y="25" font-family="'Segoe UI', Arial" font-size="12" font-weight="bold" fill="#0f172a">PACKAGE ORGANIZATION &amp; DEPENDENCY PRINCIPLES:</text>
+    <text x="25" y="44" font-family="'Segoe UI', Arial" font-size="11.5" fill="#334155">
+      The architecture follows a strict clean architecture: Embedded Firmware (Sensor + ESP32) pushes raw readings {"device_id","fsr","temperature"} across Communication boundary into Flask.
+      Flask calculates status and duration. Domain logic (Calibration &amp; Risk Analysis) triggers Alert events, which dispatch to Mobile Notification Module (Firebase/APNs). Presentation uses templates/index.html, static/style.css, and static/dashboard.js with custom SVG charts.
+    </text>
+  </g>
+
+</svg>

@@ -1,0 +1,324 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1640"
+     height="2080"
+     viewBox="0 0 1640 2080">
+
+  <!-- =====================================================
+       DEFINITIONS & STYLES
+       ===================================================== -->
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; fill: #475569; text-anchor: middle; }
+      .lane-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #1e293b; text-anchor: middle; }
+      .lane-sub { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #64748b; text-anchor: middle; }
+      .act-box { rx: 10px; stroke-width: 1.8; }
+      .act-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #0f172a; text-anchor: middle; }
+      .act-sub { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #334155; text-anchor: middle; }
+      .act-alert { rx: 10px; stroke-width: 2; fill: #fef2f2; stroke: #dc2626; }
+      .act-alert-crit { rx: 10px; stroke-width: 2; fill: #fff1f2; stroke: #be123c; }
+      .act-normal { rx: 10px; stroke-width: 1.8; fill: #f0fdf4; stroke: #16a34a; }
+      .decision-diamond { fill: #fffbeb; stroke: #d97706; stroke-width: 2; }
+      .decision-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #92400e; text-anchor: middle; }
+      .guard-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #047857; }
+      .guard-no { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #b91c1c; }
+      .flow-line { stroke: #334155; stroke-width: 1.8; fill: none; }
+      .alert-flow { stroke: #dc2626; stroke-width: 2; fill: none; }
+      .sync-bar { fill: #0f172a; }
+    </style>
+
+    <marker id="arrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#334155"/>
+    </marker>
+
+    <marker id="alertArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#dc2626"/>
+    </marker>
+
+    <marker id="greenArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1640" height="2080" fill="#ffffff"/>
+
+  <!-- Diagram Title -->
+  <text x="820" y="40" class="title">STEP-SAFE — ACTIVITY DIAGRAM</text>
+  <text x="820" y="66" class="subtitle">Complete Workflow: Calibration, Continuous Sensing, 30s Sustained-Pressure Rule, and Multi-Channel Alert Escalation</text>
+
+  <!-- =====================================================
+       SWIMLANES
+       Total width = 1560 (from x=40 to x=1600)
+       Lane 1: Patient / Web Dashboard (x=40..420, width 380, mid 230)
+       Lane 2: ESP32 Firmware & Hardware (x=420..840, width 420, mid 630)
+       Lane 3: Flask Backend & SQLite (x=840..1260, width 420, mid 1050)
+       Lane 4: Mobile Notification Service (x=1260..1600, width 340, mid 1430)
+       ===================================================== -->
+  <rect x="40" y="90" width="1560" height="1950" fill="#fcfcfd" stroke="#cbd5e1" stroke-width="2" rx="10"/>
+
+  <!-- Swimlane Header Bar -->
+  <rect x="40" y="90" width="1560" height="60" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" rx="10"/>
+  <rect x="40" y="125" width="1560" height="25" fill="#f1f5f9"/>
+
+  <!-- Lane Dividers -->
+  <line x1="420" y1="90" x2="420" y2="2040" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="840" y1="90" x2="840" y2="2040" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="1260" y1="90" x2="1260" y2="2040" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- Lane Headers -->
+  <text x="230" y="118" class="lane-title">Patient &amp; Web Dashboard</text>
+  <text x="230" y="136" class="lane-sub">Desktop / Mobile Web Browser (custom SVG charts)</text>
+
+  <text x="630" y="118" class="lane-title">ESP32 Firmware &amp; Sensors</text>
+  <text x="630" y="136" class="lane-sub">GPIO34 (FSR), GPIO35 (LM35), GPIO25 (Buzzer)</text>
+
+  <text x="1050" y="118" class="lane-title">Flask Backend &amp; SQLite</text>
+  <text x="1050" y="136" class="lane-sub">MacBook @ 192.168.4.2:5000 (step_safe.db)</text>
+
+  <text x="1430" y="118" class="lane-title" fill="#7c3aed">Mobile Notification Service</text>
+  <text x="1430" y="136" class="lane-sub" fill="#7c3aed">Firebase / APNs Push API</text>
+
+  <!-- =====================================================
+       FLOW EXECUTION
+       ===================================================== -->
+
+  <!-- Initial Start Node -->
+  <circle cx="230" cy="180" r="16" fill="#0f172a"/>
+  <line x1="230" y1="196" x2="230" y2="225" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Action: Login / Authenticate -->
+  <rect x="115" y="225" width="230" height="50" fill="#eff6ff" stroke="#2563eb" class="act-box"/>
+  <text x="230" y="247" class="act-text">1. User Login / Auth</text>
+  <text x="230" y="264" class="act-sub">(Patient, Caregiver, or Admin)</text>
+
+  <line x1="230" y1="275" x2="230" y2="305" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Action: Click Start Calibration -->
+  <rect x="110" y="305" width="240" height="50" fill="#eff6ff" stroke="#2563eb" class="act-box"/>
+  <text x="230" y="327" class="act-text">2. Click "Start Calibration"</text>
+  <text x="230" y="344" class="act-sub">HTTP POST /api/calibrate</text>
+
+  <!-- Transition to Flask -->
+  <path d="M 350 330 L 1050 330 L 1050 365" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Action: Flask initializes calibration state -->
+  <rect x="920" y="365" width="260" height="50" fill="#eff6ff" stroke="#1d4ed8" class="act-box"/>
+  <text x="1050" y="387" class="act-text">3. Init Calibration Buffer</text>
+  <text x="1050" y="404" class="act-sub">Set sampleTarget = 20, count = 0</text>
+
+  <!-- Transition to ESP32 -->
+  <path d="M 1050 415 L 1050 445 L 630 445 L 630 475" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Action: ESP32 Collects 20 Readings -->
+  <rect x="495" y="475" width="270" height="60" fill="#f0fdf4" stroke="#16a34a" class="act-box"/>
+  <text x="630" y="497" class="act-text">4. Collect 20 Sensor Readings</text>
+  <text x="630" y="514" class="act-sub">Sample FSR (GPIO34) &amp; LM35 (GPIO35)</text>
+  <text x="630" y="528" class="act-sub">Send {device_id, fsr, temp} to Flask</text>
+
+  <!-- Transition back to Flask -->
+  <path d="M 765 505 L 1050 505 L 1050 555" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Action: Flask computes baselines & thresholds -->
+  <rect x="890" y="555" width="320" height="75" fill="#eff6ff" stroke="#1d4ed8" class="act-box"/>
+  <text x="1050" y="575" class="act-text">5. Save Baselines &amp; Thresholds</text>
+  <text x="1050" y="594" class="act-sub">• FSR Thr = Baseline + 20% (min 100)</text>
+  <text x="1050" y="610" class="act-sub">• Temp Thr = Baseline + 2.0 °C</text>
+  <text x="1050" y="624" class="act-sub">Commit to SQLite step_safe.db</text>
+
+  <!-- Transition to Dashboard display -->
+  <path d="M 890 592 L 230 592 L 230 645" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Action: Dashboard displays thresholds -->
+  <rect x="105" y="645" width="250" height="50" fill="#eff6ff" stroke="#2563eb" class="act-box"/>
+  <text x="230" y="667" class="act-text">6. Display Baselines &amp; Thresholds</text>
+  <text x="230" y="684" class="act-sub">System Ready: Switch to Monitoring</text>
+
+  <!-- Loop Merge Node for Continuous Monitoring -->
+  <circle cx="630" cy="735" r="14" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+  <path d="M 230 695 L 230 735 L 616 735" class="flow-line" marker-end="url(#arrow)"/>
+
+  <line x1="630" y1="749" x2="630" y2="780" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Action: Read Live Sensor Data -->
+  <rect x="495" y="780" width="270" height="55" fill="#f0fdf4" stroke="#16a34a" class="act-box"/>
+  <text x="630" y="802" class="act-text">7. Continuous Sensor Polling</text>
+  <text x="630" y="820" class="act-sub">ADC Read GPIO34 &amp; GPIO35 (every 1000ms)</text>
+
+  <!-- Transition to Decision: Pressure above threshold? -->
+  <line x1="630" y1="835" x2="630" y2="880" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Decision 1: Pressure >= FSR Threshold? -->
+  <polygon points="630,880 770,920 630,960 490,920" class="decision-diamond"/>
+  <text x="630" y="916" class="decision-text">Pressure &gt;=</text>
+  <text x="630" y="932" class="decision-text">FSR Threshold?</text>
+
+  <!-- Branch [No]: Normal State -->
+  <path d="M 490 920 L 350 920" class="flow-line" marker-end="url(#arrow)"/>
+  <text x="410" y="912" class="guard-text">[No]</text>
+
+  <!-- Action: Normal State -->
+  <rect x="95" y="890" width="255" height="60" class="act-normal"/>
+  <text x="222" y="912" class="act-text" fill="#15803d">Status: NORMAL</text>
+  <text x="222" y="929" class="act-sub">• Timer Reset (0s) | Buzzer OFF</text>
+  <text x="222" y="943" class="act-sub">• Update Live SVG Charts &amp; Gauges</text>
+
+  <!-- Normal state routes back up to Merge Node -->
+  <path d="M 222 890 L 222 735 L 616 735" class="flow-line" marker-end="url(#greenArrow)"/>
+
+  <!-- Branch [Yes]: Start / Run Timer -->
+  <line x1="630" y1="960" x2="630" y2="1010" class="alert-flow" marker-end="url(#alertArrow)"/>
+  <text x="640" y="985" class="guard-no">[Yes]</text>
+
+  <!-- Action: Start Timer -->
+  <rect x="500" y="1010" width="260" height="50" fill="#fffbeb" stroke="#d97706" class="act-box"/>
+  <text x="630" y="1032" class="act-text" fill="#92400e">8. Run Sustained Timer</text>
+  <text x="630" y="1049" class="act-sub">Increment Active Timer Count (t)</text>
+
+  <line x1="630" y1="1060" x2="630" y2="1105" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Decision 2: Sustained for >= 30 seconds? -->
+  <polygon points="630,1105 770,1150 630,1195 490,1150" class="decision-diamond"/>
+  <text x="630" y="1144" class="decision-text">Sustained &gt;=</text>
+  <text x="630" y="1162" class="decision-text">30 Seconds?</text>
+
+  <!-- Branch [No]: Under 30s warning -->
+  <path d="M 490 1150 L 350 1150" class="flow-line" marker-end="url(#arrow)"/>
+  <text x="400" y="1142" class="guard-no">[No: t &lt; 30s]</text>
+
+  <!-- Action: Pressure Warning -->
+  <rect x="95" y="1120" width="255" height="60" fill="#fffbeb" stroke="#d97706" class="act-box"/>
+  <text x="222" y="1142" class="act-text" fill="#92400e">Status: PRESSURE WARNING</text>
+  <text x="222" y="1159" class="act-sub">• Display 30s horizontal timer bar</text>
+  <text x="222" y="1173" class="act-sub">• Buzzer remains OFF</text>
+
+  <!-- Pressure Warning routes back up to Merge Node to continue monitoring -->
+  <path d="M 95 1150 L 70 1150 L 70 735 L 616 735" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Branch [Yes]: >= 30 Seconds => Check Temperature -->
+  <line x1="630" y1="1195" x2="630" y2="1245" class="alert-flow" marker-end="url(#alertArrow)"/>
+  <text x="640" y="1225" class="guard-no">[Yes: t &gt;= 30s]</text>
+
+  <!-- Decision 3: Temperature Check -->
+  <polygon points="630,1245 780,1290 630,1335 480,1290" class="decision-diamond" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="630" y="1284" class="decision-text" fill="#991b1b">Check Temperature:</text>
+  <text x="630" y="1302" class="decision-text" fill="#991b1b">Temp &gt;= Threshold?</text>
+
+  <!-- =====================================================
+       BRANCH A: NORMAL TEMPERATURE (< Threshold) => HIGH PRESSURE
+       ===================================================== -->
+  <path d="M 480 1290 L 320 1290 L 320 1370" class="alert-flow" marker-end="url(#alertArrow)"/>
+  <text x="360" y="1280" class="guard-no">[No: Normal Temp]</text>
+
+  <!-- Action: High Pressure State -->
+  <rect x="170" y="1370" width="300" height="70" class="act-alert"/>
+  <text x="320" y="1395" class="act-text" fill="#991b1b">STATUS: HIGH PRESSURE ALERT</text>
+  <text x="320" y="1415" class="act-sub">• ESP32 Buzzer ON (GPIO25 HIGH)</text>
+  <text x="320" y="1430" class="act-sub">• Create &amp; Log Alert in Flask/SQLite</text>
+
+  <!-- =====================================================
+       BRANCH B: ELEVATED TEMPERATURE (>= Threshold) => HIGH RISK
+       ===================================================== -->
+  <path d="M 780 1290 L 940 1290 L 940 1370" class="alert-flow" marker-end="url(#alertArrow)"/>
+  <text x="820" y="1280" class="guard-no">[Yes: Elevated Temp (&gt;= Base+2°C)]</text>
+
+  <!-- Action: High Risk State -->
+  <rect x="790" y="1370" width="300" height="70" class="act-alert-crit"/>
+  <text x="940" y="1395" class="act-text" fill="#be123c">STATUS: HIGH RISK ALERT</text>
+  <text x="940" y="1415" class="act-sub">• Sustained Pressure + Elevated Temp</text>
+  <text x="940" y="1430" class="act-sub">• Local Buzzer ON | Emergency Logged</text>
+
+  <!-- =====================================================
+       ALERT DISPATCH FORK & JOIN
+       ===================================================== -->
+  <!-- Synchronization Bar (Fork) -->
+  <rect x="250" y="1480" width="800" height="8" class="sync-bar" rx="3"/>
+  <line x1="320" y1="1440" x2="320" y2="1480" class="alert-flow"/>
+  <line x1="940" y1="1440" x2="940" y2="1480" class="alert-flow"/>
+
+  <!-- Sub-actions dispatched in parallel -->
+  <!-- 1. Local Buzzer Confirmation -->
+  <line x1="400" y1="1488" x2="400" y2="1530" class="alert-flow" marker-end="url(#alertArrow)"/>
+  <rect x="270" y="1530" width="260" height="60" fill="#fee2e2" stroke="#dc2626" class="act-box"/>
+  <text x="400" y="1552" class="act-text" fill="#991b1b">Activate Local Buzzer</text>
+  <text x="400" y="1570" class="act-sub">digitalWrite(GPIO25, HIGH)</text>
+  <text x="400" y="1584" class="act-sub">Audible alert to patient</text>
+
+  <!-- 2. Flask & SQLite Storage -->
+  <line x1="750" y1="1488" x2="750" y2="1530" class="alert-flow" marker-end="url(#alertArrow)"/>
+  <rect x="620" y="1530" width="260" height="60" fill="#eff6ff" stroke="#1d4ed8" class="act-box"/>
+  <text x="750" y="1552" class="act-text" fill="#1e40af">Persist Alert to Database</text>
+  <text x="750" y="1570" class="act-sub">INSERT INTO events (step_safe.db)</text>
+  <text x="750" y="1584" class="act-sub">Record duration, peak FSR, temp</text>
+
+  <!-- 3. Mobile Notification Dispatch -->
+  <line x1="1100" y1="1488" x2="1430" y2="1488" class="alert-flow"/>
+  <line x1="1430" y1="1488" x2="1430" y2="1530" class="alert-flow" stroke="#7c3aed" marker-end="url(#alertArrow)"/>
+  <rect x="1290" y="1530" width="280" height="65" fill="#faf5ff" stroke="#7c3aed" class="act-box"/>
+  <text x="1430" y="1550" class="act-text" fill="#6d28d9">Dispatch Mobile Alerts</text>
+  <text x="1430" y="1568" class="act-sub" fill="#7c3aed">• Push to Patient &amp; Caregiver Profiles</text>
+  <text x="1430" y="1584" class="act-sub" fill="#7c3aed">• "Educational alert: Check dashboard"</text>
+
+  <!-- Synchronization Bar (Join) -->
+  <rect x="250" y="1635" width="1240" height="8" class="sync-bar" rx="3"/>
+  <line x1="400" y1="1590" x2="400" y2="1635" class="alert-flow"/>
+  <line x1="750" y1="1590" x2="750" y2="1635" class="alert-flow"/>
+  <line x1="1430" y1="1595" x2="1430" y2="1635" class="alert-flow"/>
+
+  <!-- Transition to Decision: Foot Pressure Removed? -->
+  <line x1="630" y1="1643" x2="630" y2="1685" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Decision 4: Pressure Removed? -->
+  <polygon points="630,1685 770,1725 630,1765 490,1725" class="decision-diamond"/>
+  <text x="630" y="1720" class="decision-text">Is Pressure Removed?</text>
+  <text x="630" y="1736" class="decision-text">(FSR &lt; Threshold)</text>
+
+  <!-- Branch [No]: Keep Alert Active -->
+  <path d="M 770 1725 L 880 1725 L 880 1600 L 760 1600" class="alert-flow" marker-end="url(#alertArrow)"/>
+  <text x="890" y="1670" class="guard-no">[No: Stance Maintained]</text>
+
+  <!-- Branch [Yes]: Pressure Released -->
+  <line x1="630" y1="1765" x2="630" y2="1815" class="flow-line" marker-end="url(#arrow)"/>
+  <text x="640" y="1790" class="guard-text">[Yes: Foot Relieved]</text>
+
+  <!-- Action: Normal Reset -->
+  <rect x="470" y="1815" width="320" height="70" class="act-normal"/>
+  <text x="630" y="1838" class="act-text" fill="#15803d">9. NORMAL RESET</text>
+  <text x="630" y="1856" class="act-sub">• Turn Buzzer OFF: digitalWrite(GPIO25, LOW)</text>
+  <text x="630" y="1872" class="act-sub">• Reset Timer (t=0) | Clear UI Alert Banner</text>
+
+  <!-- Transition back to monitoring loop or end -->
+  <line x1="630" y1="1885" x2="630" y2="1925" class="flow-line" marker-end="url(#arrow)"/>
+
+  <!-- Decision: Continue Monitoring? -->
+  <polygon points="630,1925 740,1955 630,1985 520,1955" class="decision-diamond"/>
+  <text x="630" y="1959" class="decision-text">Continue Session?</text>
+
+  <!-- Yes -> Loop back to monitoring merge node -->
+  <path d="M 520 1955 L 50 1955 L 50 735 L 616 735" class="flow-line" marker-end="url(#greenArrow)"/>
+  <text x="180" y="1947" class="guard-text">[Yes: Continue Monitoring]</text>
+
+  <!-- No -> Final End Node -->
+  <path d="M 740 1955 L 820 1955 L 820 2010" class="flow-line" marker-end="url(#arrow)"/>
+  <text x="750" y="1947" class="guard-no">[No: User Logout]</text>
+
+  <!-- Final Node (Bullseye) -->
+  <circle cx="820" cy="2030" r="16" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="820" cy="2030" r="10" fill="#0f172a"/>
+
+</svg>

@@ -1,0 +1,11 @@
+If:
+  PathMatch: .*\.ino
+CompileFlags:
+  Add:
+    - -x
+    - c++
+    - -w
+    - -ferror-limit=0
+Diagnostics:
+  Suppress:
+    - "*"

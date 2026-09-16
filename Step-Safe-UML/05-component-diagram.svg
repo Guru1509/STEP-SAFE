@@ -1,0 +1,336 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1680"
+     height="1180"
+     viewBox="0 0 1680 1180">
+
+  <!-- =====================================================
+       DEFINITIONS & STYLES
+       ===================================================== -->
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; fill: #475569; text-anchor: middle; }
+      .pkg-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #1e293b; }
+      .comp-box { stroke: #334155; stroke-width: 2; rx: 8px; }
+      .comp-header { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .comp-stereo { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; font-style: italic; fill: #475569; text-anchor: middle; }
+      .comp-body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #334155; }
+      .subcomp-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: bold; fill: #1e293b; text-anchor: middle; }
+      .iface-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; font-weight: 600; fill: #0f172a; }
+      .conn-line { stroke: #1e293b; stroke-width: 1.8; fill: none; }
+      .notif-conn { stroke: #7c3aed; stroke-width: 1.8; fill: none; }
+    </style>
+
+    <marker id="arrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#334155"/>
+    </marker>
+
+    <marker id="arrowPurple"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1680" height="1180" fill="#ffffff"/>
+
+  <!-- Diagram Titles -->
+  <text x="840" y="42" class="title">STEP-SAFE — COMPONENT DIAGRAM</text>
+  <text x="840" y="68" class="subtitle">Modular Component Architecture: Hardware Interfacing, STEP-SAFE Wi-Fi, Flask API, SQLite &amp; Mobile Notifications</text>
+
+  <!-- =====================================================
+       PACKAGE / SUBSYSTEM 1: HARDWARE LAYER (LEFT)
+       x=40..420, y=95..1130
+       ===================================================== -->
+  <rect x="40" y="95" width="400" height="1045" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="40" y="95" width="220" height="34" rx="10" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="150" y="118" class="pkg-title" font-size="14">HARDWARE SUBSYSTEM</text>
+
+  <!-- 1. FSR Sensor -->
+  <g id="comp-fsr" transform="translate(70, 150)">
+    <rect width="330" height="115" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="290" y="10" width="28" height="18" fill="#ffffff" stroke="#16a34a" stroke-width="1.2"/>
+    <rect x="284" y="13" width="10" height="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+    <rect x="284" y="21" width="10" height="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+    <text x="165" y="30" class="comp-stereo">«component»</text>
+    <text x="165" y="50" class="comp-header">FSR Pressure Sensor</text>
+    <text x="20" y="75" class="comp-body">• Interlink 402 Force Sensing Resistor</text>
+    <text x="20" y="93" class="comp-body">• 10 kΩ Voltage Divider to 3V3 / GND</text>
+    <text x="20" y="108" class="comp-body" font-weight="bold" fill="#15803d">• Connected to ESP32 GPIO 34 (ADC1)</text>
+  </g>
+
+  <!-- 2. LM35 Temperature Sensor -->
+  <g id="comp-lm35" transform="translate(70, 295)">
+    <rect width="330" height="115" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="290" y="10" width="28" height="18" fill="#ffffff" stroke="#16a34a" stroke-width="1.2"/>
+    <rect x="284" y="13" width="10" height="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+    <rect x="284" y="21" width="10" height="4" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+    <text x="165" y="30" class="comp-stereo">«component»</text>
+    <text x="165" y="50" class="comp-header">LM35 Temperature Sensor</text>
+    <text x="20" y="75" class="comp-body">• Precision Centigrade Sensor (10 mV/°C)</text>
+    <text x="20" y="93" class="comp-body">• Linear Analog Output (5V Supply)</text>
+    <text x="20" y="108" class="comp-body" font-weight="bold" fill="#15803d">• Connected to ESP32 GPIO 35 (ADC1)</text>
+  </g>
+
+  <!-- 3. Buzzer Alert -->
+  <g id="comp-buzzer" transform="translate(70, 440)">
+    <rect width="330" height="115" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="290" y="10" width="28" height="18" fill="#ffffff" stroke="#dc2626" stroke-width="1.2"/>
+    <rect x="284" y="13" width="10" height="4" fill="#ffffff" stroke="#dc2626" stroke-width="1"/>
+    <rect x="284" y="21" width="10" height="4" fill="#ffffff" stroke="#dc2626" stroke-width="1"/>
+    <text x="165" y="30" class="comp-stereo" fill="#dc2626">«component»</text>
+    <text x="165" y="50" class="comp-header" fill="#991b1b">Buzzer Alert</text>
+    <text x="20" y="75" class="comp-body">• 5V / 3.3V Active Piezo Buzzer</text>
+    <text x="20" y="93" class="comp-body">• Digital Output High/Low Signaling</text>
+    <text x="20" y="108" class="comp-body" font-weight="bold" fill="#dc2626">• Driven by ESP32 GPIO 25</text>
+  </g>
+
+  <!-- 4. ESP32 Controller -->
+  <g id="comp-esp32" transform="translate(60, 590)">
+    <rect width="360" height="525" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"/>
+    <!-- Component icon tabs -->
+    <rect x="315" y="15" width="30" height="20" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+    <rect x="309" y="18" width="10" height="5" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+    <rect x="309" y="27" width="10" height="5" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+    <text x="180" y="35" class="comp-stereo">«component»</text>
+    <text x="180" y="58" class="comp-header" font-size="18">ESP32 Controller</text>
+    <text x="180" y="78" class="comp-body" text-anchor="middle">Firmware: STEP_SAFE_ESP32.ino</text>
+
+    <!-- Sub-blocks inside ESP32 -->
+    <rect x="25" y="100" width="310" height="75" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="180" y="125" class="subcomp-title">ADC Sampling Engine</text>
+    <text x="35" y="148" class="comp-body">• GPIO34 12-bit ADC Read (FSR)</text>
+    <text x="35" y="165" class="comp-body">• GPIO35 12-bit ADC Read (LM35)</text>
+
+    <rect x="25" y="190" width="310" height="85" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="180" y="215" class="subcomp-title">Local 30s Timer &amp; Buzzer Logic</text>
+    <text x="35" y="238" class="comp-body">• Evaluates local pressure threshold</text>
+    <text x="35" y="254" class="comp-body">• Triggers GPIO25 HIGH after 30s sustained</text>
+    <text x="35" y="268" class="comp-body">• Auto-reset GPIO25 LOW when released</text>
+
+    <rect x="25" y="290" width="310" height="85" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="180" y="315" class="subcomp-title">Wi-Fi SoftAP Service</text>
+    <text x="35" y="338" class="comp-body">• SSID: "STEP-SAFE" | Pass: stepsafe123</text>
+    <text x="35" y="354" class="comp-body">• Local SoftAP IP: 192.168.4.1</text>
+    <text x="35" y="368" class="comp-body">• DHCP Server for Mac &amp; Mobile Clients</text>
+
+    <rect x="25" y="390" width="310" height="80" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="180" y="415" class="subcomp-title">HTTP Client (Interval = 1000ms)</text>
+    <text x="35" y="438" class="comp-body">• Sends POST /api/readings with ArduinoJson</text>
+    <text x="35" y="454" class="comp-body">• Payload: {"device_id", "fsr", "temperature"}</text>
+
+    <!-- Pin Connections into ESP32 -->
+    <line x1="175" y1="265" x2="175" y2="590" class="conn-line"/>
+    <line x1="235" y1="410" x2="235" y2="590" class="conn-line"/>
+    <line x1="295" y1="555" x2="295" y2="590" class="conn-line" stroke="#dc2626"/>
+  </g>
+
+  <!-- =====================================================
+       PACKAGE / SUBSYSTEM 2: NETWORK INFRASTRUCTURE (CENTER LEFT)
+       ===================================================== -->
+  <g id="comp-wifi" transform="translate(480, 520)">
+    <rect width="210" height="150" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="170" y="10" width="28" height="18" fill="#ffffff" stroke="#0284c7" stroke-width="1.2"/>
+    <rect x="164" y="13" width="10" height="4" fill="#ffffff" stroke="#0284c7" stroke-width="1"/>
+    <rect x="164" y="21" width="10" height="4" fill="#ffffff" stroke="#0284c7" stroke-width="1"/>
+    <text x="105" y="32" class="comp-stereo" fill="#0284c7">«network»</text>
+    <text x="105" y="54" class="comp-header" fill="#0369a1">STEP-SAFE Wi-Fi</text>
+    <text x="105" y="78" class="comp-body" text-anchor="middle">Local Access Point (802.11)</text>
+    <text x="105" y="98" class="comp-body" text-anchor="middle">Subnet: 192.168.4.0/24</text>
+    <text x="105" y="118" class="comp-body" text-anchor="middle">Local monitoring works</text>
+    <text x="105" y="136" class="comp-body" text-anchor="middle" font-weight="bold">without internet</text>
+  </g>
+
+  <!-- Wiring: ESP32 <-> STEP-SAFE Wi-Fi -->
+  <line x1="420" y1="780" x2="480" y2="600" class="conn-line" stroke="#0284c7" stroke-width="2"/>
+
+  <!-- =====================================================
+       PACKAGE / SUBSYSTEM 3: FLASK BACKEND & SQLITE (CENTER & RIGHT)
+       x=740..1280, y=95..1130
+       ===================================================== -->
+  <rect x="740" y="95" width="550" height="1045" rx="12" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+  <rect x="740" y="95" width="310" height="34" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="895" y="118" class="pkg-title" font-size="14" fill="#1e40af">FLASK BACKEND &amp; STORAGE (MacBook)</text>
+
+  <!-- Flask API Component Box -->
+  <g id="comp-flask" transform="translate(770, 150)">
+    <rect width="490" height="580" rx="10" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="445" y="15" width="30" height="20" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.5"/>
+    <rect x="439" y="18" width="10" height="5" fill="#ffffff" stroke="#1d4ed8" stroke-width="1"/>
+    <rect x="439" y="27" width="10" height="5" fill="#ffffff" stroke="#1d4ed8" stroke-width="1"/>
+    <text x="245" y="32" class="comp-stereo">«component»</text>
+    <text x="245" y="54" class="comp-header" font-size="18">Flask REST API &amp; Server</text>
+    <text x="245" y="74" class="comp-body" text-anchor="middle">MacBook Python Runtime @ 192.168.4.2:5000</text>
+
+    <!-- Subcomponent 1: User / Profile Management Module -->
+    <rect x="25" y="95" width="440" height="110" rx="6" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/>
+    <rect x="420" y="105" width="20" height="14" fill="#ffffff" stroke="#334155" stroke-width="1"/>
+    <text x="245" y="122" class="subcomp-title">User / Profile Management Module</text>
+    <text x="35" y="145" class="comp-body">• Authentication &amp; Session Management (Login/Register)</text>
+    <text x="35" y="162" class="comp-body">• Multi-Role Profiles: Patient/User, Caregiver, Admin</text>
+    <text x="35" y="179" class="comp-body">• Patient-to-Device Mapping &amp; Alert Preference Configuration</text>
+    <text x="35" y="196" class="comp-body">• Auth &amp; REST Endpoints: /auth/login, /auth/logout, /api/me</text>
+
+    <!-- Subcomponent 2: Calibration & Risk Evaluation Module -->
+    <rect x="25" y="220" width="440" height="135" rx="6" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/>
+    <rect x="420" y="230" width="20" height="14" fill="#ffffff" stroke="#334155" stroke-width="1"/>
+    <text x="245" y="247" class="subcomp-title">Calibration &amp; Risk Evaluation Module</text>
+    <text x="35" y="270" class="comp-body">• 20-Sample Calibration Accumulator (/api/calibrate)</text>
+    <text x="35" y="287" class="comp-body">• FSR Baseline &amp; Threshold: Baseline + 20% (min 100)</text>
+    <text x="35" y="304" class="comp-body">• Temperature Baseline &amp; Threshold: Baseline + 2.0 °C</text>
+    <text x="35" y="321" class="comp-body">• 30-Second Sustained Pressure State Tracker</text>
+    <text x="35" y="338" class="comp-body">• Risk Classifier: NORMAL, PRESSURE, HIGH PRESSURE, HIGH RISK</text>
+
+    <!-- Subcomponent 3: Alert Management Module -->
+    <rect x="25" y="370" width="440" height="120" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <rect x="420" y="380" width="20" height="14" fill="#ffffff" stroke="#dc2626" stroke-width="1"/>
+    <text x="245" y="397" class="subcomp-title" fill="#991b1b">Alert Management Module</text>
+    <text x="35" y="420" class="comp-body">• Triggers Alert on 30s Sustained Pressure</text>
+    <text x="35" y="437" class="comp-body">• Escalates to HIGH RISK when Sustained Pressure + Elevated Temp</text>
+    <text x="35" y="454" class="comp-body">• Formats Alert Payloads &amp; Dispatches to Notification Module</text>
+    <text x="35" y="471" class="comp-body">• Endpoint: /api/device-config, /api/live</text>
+
+    <!-- HTTP Endpoints Badge -->
+    <rect x="25" y="505" width="440" height="55" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <text x="245" y="525" class="comp-body" font-weight="bold" fill="#1e40af" text-anchor="middle">Flask REST Endpoints</text>
+    <text x="245" y="543" class="comp-body" text-anchor="middle">POST /api/readings | POST /api/calibrate | GET /api/live | GET /api/history</text>
+  </g>
+
+  <!-- Wiring: STEP-SAFE Wi-Fi <-> Flask API -->
+  <line x1="690" y1="580" x2="770" y2="540" class="conn-line" stroke="#0284c7" stroke-width="2"/>
+  <text x="730" y="545" class="iface-text" fill="#0369a1" text-anchor="middle">HTTP :5000</text>
+
+  <!-- Subcomponent 4: SQLite Database -->
+  <g id="comp-sqlite" transform="translate(770, 770)">
+    <rect width="490" height="235" rx="10" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="445" y="15" width="30" height="20" fill="#ffffff" stroke="#475569" stroke-width="1.5"/>
+    <rect x="439" y="18" width="10" height="5" fill="#ffffff" stroke="#475569" stroke-width="1"/>
+    <rect x="439" y="27" width="10" height="5" fill="#ffffff" stroke="#475569" stroke-width="1"/>
+    <text x="245" y="32" class="comp-stereo">«database component»</text>
+    <text x="245" y="54" class="comp-header" font-size="18">SQLite Database Engine</text>
+    <text x="245" y="74" class="comp-body" text-anchor="middle">File: step_safe.db (MacBook Storage)</text>
+
+    <!-- Schema Tables Inside SQLite -->
+    <rect x="25" y="95" width="210" height="120" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+    <text x="130" y="115" class="subcomp-title">Telemetry &amp; Events</text>
+    <text x="35" y="135" class="comp-body">• readings (id, fsr, temp, time)</text>
+    <text x="35" y="155" class="comp-body">• calibrations (base_fsr, thr_fsr,</text>
+    <text x="45" y="170" class="comp-body">base_temp, thr_temp, time)</text>
+    <text x="35" y="190" class="comp-body">• events (id, device_id, type, peak)</text>
+
+    <rect x="255" y="95" width="210" height="120" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+    <text x="360" y="115" class="subcomp-title">Accounts &amp; Devices</text>
+    <text x="265" y="135" class="comp-body">• users (id, username, password)</text>
+    <text x="265" y="155" class="comp-body">• profiles (id, user_id, role,</text>
+    <text x="275" y="170" class="comp-body">device_id, preferences)</text>
+    <text x="265" y="190" class="comp-body">• notifications (id, alert_id, status)</text>
+  </g>
+
+  <!-- Wiring: Flask API <-> SQLite -->
+  <line x1="1015" y1="730" x2="1015" y2="770" class="conn-line" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="1030" y="755" class="iface-text" fill="#1d4ed8">SQL Queries / Commit</text>
+
+  <!-- =====================================================
+       PACKAGE / SUBSYSTEM 4: CLIENT PRESENTATION (TOP RIGHT)
+       ===================================================== -->
+  <!-- Web Dashboard Component -->
+  <g id="comp-dashboard" transform="translate(1330, 150)">
+    <rect width="310" height="290" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="265" y="15" width="30" height="20" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+    <rect x="259" y="18" width="10" height="5" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+    <rect x="259" y="27" width="10" height="5" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+    <text x="155" y="32" class="comp-stereo">«component»</text>
+    <text x="155" y="54" class="comp-header">Web Dashboard</text>
+    <text x="155" y="74" class="comp-body" text-anchor="middle">templates/index.html &amp; static/style.css</text>
+
+    <!-- Sub-features (Updated: custom SVG charts with static/dashboard.js) -->
+    <text x="20" y="105" class="comp-body">• Responsive Desktop &amp; Mobile Views</text>
+    <text x="20" y="125" class="comp-body" font-weight="bold" fill="#1d4ed8">• Custom SVG history charts rendered</text>
+    <text x="28" y="140" class="comp-body" font-weight="bold" fill="#1d4ed8">by static/dashboard.js</text>
+    <text x="20" y="160" class="comp-body">• 30-Second Sustained Progress Timer</text>
+    <text x="20" y="180" class="comp-body">• Baseline &amp; Thresholds Display Cards</text>
+    <text x="20" y="200" class="comp-body">• Visual Alert Banners &amp; Audio Tones</text>
+    <text x="20" y="220" class="comp-body">• "Start Calibration" Button Controller</text>
+    <text x="20" y="240" class="comp-body">• Pressure / High-Risk Event History</text>
+  </g>
+
+  <!-- Wiring: Flask API <-> Web Dashboard -->
+  <line x1="1260" y1="290" x2="1330" y2="290" class="conn-line" stroke="#2563eb" stroke-width="2"/>
+  <text x="1295" y="280" class="iface-text" text-anchor="middle">HTTP GET / JSON</text>
+
+  <!-- Patient / Caregiver Mobile Browser or App -->
+  <g id="comp-mobile-client" transform="translate(1330, 480)">
+    <rect width="310" height="190" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="265" y="15" width="30" height="20" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <rect x="259" y="18" width="10" height="5" fill="#ffffff" stroke="#334155" stroke-width="1"/>
+    <rect x="259" y="27" width="10" height="5" fill="#ffffff" stroke="#334155" stroke-width="1"/>
+    <text x="155" y="32" class="comp-stereo">«client component»</text>
+    <text x="155" y="52" class="comp-header">Patient / Caregiver</text>
+    <text x="155" y="70" class="comp-header">Mobile Browser or App</text>
+    <text x="20" y="100" class="comp-body">• Safari / Chrome on iOS &amp; Android</text>
+    <text x="20" y="120" class="comp-body">• Mobile-Optimized Dashboard View</text>
+    <text x="20" y="140" class="comp-body">• Receives Live Telemetry over Wi-Fi</text>
+    <text x="20" y="160" class="comp-body">• Push Notification Client (Firebase / APNs)</text>
+  </g>
+
+  <!-- Wiring: Web Dashboard -> Mobile Browser -->
+  <line x1="1485" y1="440" x2="1485" y2="480" class="conn-line" stroke="#2563eb" stroke-width="2"/>
+
+  <!-- =====================================================
+       PACKAGE / SUBSYSTEM 5: MOBILE NOTIFICATION SERVICE
+       x=1330..1640, y=720..1050
+       ===================================================== -->
+  <g id="comp-notif-service" transform="translate(1330, 720)">
+    <rect width="310" height="260" rx="10" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+    <!-- Component icon tabs -->
+    <rect x="265" y="15" width="30" height="20" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+    <rect x="259" y="18" width="10" height="5" fill="#ffffff" stroke="#7c3aed" stroke-width="1"/>
+    <rect x="259" y="27" width="10" height="5" fill="#ffffff" stroke="#7c3aed" stroke-width="1"/>
+    <text x="155" y="32" class="comp-stereo" fill="#7c3aed">«notification service»</text>
+    <text x="155" y="54" class="comp-header" fill="#5b21b6">Mobile Notification</text>
+    <text x="155" y="72" class="comp-header" fill="#5b21b6">Service Module</text>
+
+    <!-- Details -->
+    <text x="20" y="105" class="comp-body" fill="#6d28d9">• Cloud Notification Gateway Service</text>
+    <text x="20" y="125" class="comp-body" fill="#6d28d9">• APNs / FCM Push Notification APIs</text>
+    <text x="20" y="145" class="comp-body" fill="#6d28d9">• Dispatches to Assigned Patient Mobile</text>
+    <text x="20" y="165" class="comp-body" fill="#6d28d9">• Dispatches to Caregiver Mobile</text>
+    <text x="20" y="185" class="comp-body" fill="#6d28d9">• Sustained High Pressure Alert Event</text>
+    <text x="20" y="205" class="comp-body" fill="#6d28d9">• Separate Internet required on MacBook</text>
+    <text x="20" y="235" class="comp-body" font-weight="bold" fill="#7c3aed">Architecture: Flask =&gt; Notif Svc =&gt; Mobile</text>
+  </g>
+
+  <!-- Wiring: Alert Management Module -> Mobile Notification Service -->
+  <path d="M 1210 470 L 1290 470 L 1290 850 L 1330 850" class="notif-conn" marker-end="url(#arrowPurple)"/>
+  <text x="1305" y="700" class="iface-text" fill="#7c3aed" transform="rotate(-90 1305 700)" text-anchor="middle">API Push Dispatch</text>
+
+  <!-- Wiring: Mobile Notification Service -> Mobile Client -->
+  <line x1="1485" y1="720" x2="1485" y2="670" class="notif-conn" marker-end="url(#arrowPurple)"/>
+  <text x="1495" y="700" class="iface-text" fill="#7c3aed">Push Notifications</text>
+
+  <!-- =====================================================
+       DIAGRAM FOOTNOTE / NOTATION
+       ===================================================== -->
+  <rect x="40" y="1105" width="1560" height="35" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="820" y="1127" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#475569" text-anchor="middle">
+    Local monitoring works without internet (ESP32 ↔ Flask via STEP-SAFE Wi-Fi). Mobile push notifications require a separate internet connection on the MacBook/backend.
+  </text>
+
+</svg>

@@ -1,0 +1,312 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1520"
+     height="960"
+     viewBox="0 0 1520 960">
+
+  <!-- =====================================================
+       DEFINITIONS & STYLES
+       ===================================================== -->
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #0f172a; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; fill: #475569; }
+      .boundary-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 20px; font-weight: bold; fill: #1e293b; letter-spacing: 1px; }
+      .actor-name { font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .actor-sub { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #64748b; text-anchor: middle; }
+      .usecase-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #0f172a; text-anchor: middle; }
+      .rel-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-style: italic; fill: #64748b; text-anchor: middle; }
+      .assoc-line { stroke: #334155; stroke-width: 1.8; fill: none; }
+      .dashed-rel { stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 5,4; fill: none; }
+    </style>
+
+    <marker id="arrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#64748b"/>
+    </marker>
+
+    <!-- Gradients -->
+    <linearGradient id="ucGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#eff6ff"/>
+      <stop offset="100%" stop-color="#dbeafe"/>
+    </linearGradient>
+
+    <linearGradient id="ucGradAlert" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fef2f2"/>
+      <stop offset="100%" stop-color="#fee2e2"/>
+    </linearGradient>
+
+    <linearGradient id="ucGradAdmin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1520" height="960" fill="#ffffff"/>
+
+  <!-- Diagram Header -->
+  <text x="760" y="44" text-anchor="middle" class="title">STEP-SAFE — USE CASE DIAGRAM</text>
+  <text x="760" y="70" text-anchor="middle" class="subtitle">Smart Foot-Pressure &amp; Temperature Monitoring Prototype (ESP32, Flask Backend, Multi-User Dashboard)</text>
+
+  <!-- =====================================================
+       SYSTEM BOUNDARY
+       ===================================================== -->
+  <rect x="270" y="95" width="940" height="835" rx="16" fill="#fcfdfd" stroke="#1e293b" stroke-width="2.5"/>
+  <rect x="270" y="95" width="940" height="42" rx="16" fill="#f1f5f9" stroke="#1e293b" stroke-width="2.5"/>
+  <rect x="271" y="115" width="938" height="22" fill="#f1f5f9"/>
+  <line x1="270" y1="137" x2="1210" y2="137" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="740" y="124" text-anchor="middle" class="boundary-title">SYSTEM BOUNDARY: STEP-SAFE SYSTEM</text>
+
+  <!-- =====================================================
+       USE CASES (ELLIPSES)
+       ===================================================== -->
+
+  <!-- Column 1: Core User & Monitoring Flow -->
+  <!-- 1. Register / Login -->
+  <g id="uc-login">
+    <ellipse cx="460" cy="185" rx="130" ry="32" fill="url(#ucGrad)" stroke="#2563eb" stroke-width="2"/>
+    <text x="460" y="190" class="usecase-text">Register / Login</text>
+  </g>
+
+  <!-- 2. Manage Profile -->
+  <g id="uc-profile">
+    <ellipse cx="460" cy="275" rx="130" ry="32" fill="url(#ucGrad)" stroke="#2563eb" stroke-width="2"/>
+    <text x="460" y="280" class="usecase-text">Manage Profile</text>
+  </g>
+
+  <!-- 3. Start Calibration -->
+  <g id="uc-calibrate">
+    <ellipse cx="460" cy="375" rx="135" ry="34" fill="url(#ucGrad)" stroke="#2563eb" stroke-width="2"/>
+    <text x="460" y="373" class="usecase-text">Start Calibration</text>
+    <text x="460" y="390" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#1e40af" text-anchor="middle">(20 Sensor Samples)</text>
+  </g>
+
+  <!-- 4. View Live Readings -->
+  <g id="uc-live">
+    <ellipse cx="460" cy="480" rx="135" ry="34" fill="url(#ucGrad)" stroke="#2563eb" stroke-width="2"/>
+    <text x="460" y="478" class="usecase-text">View Live Readings</text>
+    <text x="460" y="495" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#1e40af" text-anchor="middle">(FSR GPIO34 &amp; LM35 GPIO35)</text>
+  </g>
+
+  <!-- 5. View Baseline & Thresholds -->
+  <g id="uc-thresholds">
+    <ellipse cx="460" cy="590" rx="145" ry="34" fill="url(#ucGrad)" stroke="#2563eb" stroke-width="2"/>
+    <text x="460" y="587" class="usecase-text">View Baseline &amp; Thresholds</text>
+    <text x="460" y="605" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#1e40af" text-anchor="middle">(FSR +20% min 100, Temp +2°C)</text>
+  </g>
+
+  <!-- 6. View Timer & System Status -->
+  <g id="uc-timer">
+    <ellipse cx="460" cy="700" rx="145" ry="34" fill="url(#ucGrad)" stroke="#2563eb" stroke-width="2"/>
+    <text x="460" y="697" class="usecase-text">View Timer &amp; System Status</text>
+    <text x="460" y="715" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#1e40af" text-anchor="middle">(30s Sustained Pressure Rule)</text>
+  </g>
+
+  <!-- Column 2: History, Alerts, and Administration -->
+  <!-- 7. View Graphs / History -->
+  <g id="uc-graphs">
+    <ellipse cx="800" cy="210" rx="135" ry="32" fill="url(#ucGrad)" stroke="#2563eb" stroke-width="2"/>
+    <text x="800" y="215" class="usecase-text">View Graphs / History</text>
+  </g>
+
+  <!-- 8. Receive Mobile Alert -->
+  <g id="uc-alert">
+    <ellipse cx="800" cy="325" rx="140" ry="34" fill="url(#ucGradAlert)" stroke="#dc2626" stroke-width="2"/>
+    <text x="800" y="322" class="usecase-text" fill="#991b1b">Receive Mobile Alert</text>
+    <text x="800" y="340" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#b91c1c" text-anchor="middle">(High Pressure &amp; High Risk)</text>
+  </g>
+
+  <!-- 9. View Alert History -->
+  <g id="uc-alerthist">
+    <ellipse cx="800" cy="445" rx="135" ry="32" fill="url(#ucGradAlert)" stroke="#dc2626" stroke-width="2"/>
+    <text x="800" y="450" class="usecase-text" fill="#991b1b">View Alert History</text>
+  </g>
+
+  <!-- 10. Assign Device to Patient -->
+  <g id="uc-assigndev">
+    <ellipse cx="800" cy="565" rx="140" ry="33" fill="url(#ucGradAdmin)" stroke="#475569" stroke-width="2"/>
+    <text x="800" y="570" class="usecase-text">Assign Device to Patient</text>
+  </g>
+
+  <!-- 11. Manage Users / Devices -->
+  <g id="uc-manageusers">
+    <ellipse cx="800" cy="685" rx="140" ry="33" fill="url(#ucGradAdmin)" stroke="#475569" stroke-width="2"/>
+    <text x="800" y="690" class="usecase-text">Manage Users / Devices</text>
+  </g>
+
+  <!-- UML Relationship: <<include>> Start Calibration -> View Baseline & Thresholds -->
+  <path d="M 460 410 L 460 554" class="dashed-rel" marker-end="url(#arrow)"/>
+  <rect x="422" y="475" width="76" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="460" y="489" class="rel-text">«include»</text>
+
+  <!-- UML Relationship: <<extend>> Receive Mobile Alert -> View Alert History -->
+  <path d="M 800 361 L 800 411" class="dashed-rel" marker-end="url(#arrow)"/>
+  <rect x="765" y="377" width="70" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="800" y="391" class="rel-text">«extend»</text>
+
+  <!-- =====================================================
+       ACTOR 1: PATIENT / USER (Left)
+       ===================================================== -->
+  <g id="actor-patient" transform="translate(110, 310)">
+    <!-- Head -->
+    <circle cx="0" cy="0" r="22" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Body -->
+    <line x1="0" y1="22" x2="0" y2="85" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Arms -->
+    <line x1="-35" y1="48" x2="35" y2="48" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Legs -->
+    <line x1="0" y1="85" x2="-28" y2="140" stroke="#0f172a" stroke-width="2.5"/>
+    <line x1="0" y1="85" x2="28" y2="140" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Labels -->
+    <text x="0" y="170" class="actor-name">Patient / User</text>
+    <text x="0" y="190" class="actor-sub">(Monitored Individual)</text>
+  </g>
+
+  <!-- =====================================================
+       ACTOR 2: ESP32 DEVICE (Left, Bottom)
+       ===================================================== -->
+  <g id="actor-esp32" transform="translate(110, 715)">
+    <!-- Device Icon/Box -->
+    <rect x="-55" y="-35" width="110" height="75" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"/>
+    <text x="0" y="-12" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-style="italic" fill="#15803d" text-anchor="middle">«device actor»</text>
+    <text x="0" y="10" class="actor-name" font-size="15">ESP32</text>
+    <text x="0" y="28" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#166534" text-anchor="middle">Controller</text>
+    <!-- Pin details (Corrected: LM35: GPIO35) -->
+    <text x="0" y="58" class="actor-sub" font-size="11">FSR: GPIO34 | LM35: GPIO35</text>
+    <text x="0" y="73" class="actor-sub" font-size="11">Buzzer: GPIO25 | AP: 192.168.4.1</text>
+  </g>
+
+  <!-- =====================================================
+       ACTOR 3: CAREGIVER (Right, Top)
+       ===================================================== -->
+  <g id="actor-caregiver" transform="translate(1375, 230)">
+    <!-- Head -->
+    <circle cx="0" cy="0" r="22" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Body -->
+    <line x1="0" y1="22" x2="0" y2="85" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Arms -->
+    <line x1="-35" y1="48" x2="35" y2="48" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Legs -->
+    <line x1="0" y1="85" x2="-28" y2="140" stroke="#0f172a" stroke-width="2.5"/>
+    <line x1="0" y1="85" x2="28" y2="140" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Labels -->
+    <text x="0" y="170" class="actor-name">Caregiver</text>
+    <text x="0" y="190" class="actor-sub">(Family / Clinician)</text>
+  </g>
+
+  <!-- =====================================================
+       ACTOR 4: ADMIN (Right, Bottom)
+       ===================================================== -->
+  <g id="actor-admin" transform="translate(1375, 660)">
+    <!-- Head -->
+    <circle cx="0" cy="0" r="22" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Body -->
+    <line x1="0" y1="22" x2="0" y2="85" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Arms -->
+    <line x1="-35" y1="48" x2="35" y2="48" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Legs -->
+    <line x1="0" y1="85" x2="-28" y2="140" stroke="#0f172a" stroke-width="2.5"/>
+    <line x1="0" y1="85" x2="28" y2="140" stroke="#0f172a" stroke-width="2.5"/>
+    <!-- Labels -->
+    <text x="0" y="170" class="actor-name">Admin</text>
+    <text x="0" y="190" class="actor-sub">(System Administrator)</text>
+  </g>
+
+  <!-- =====================================================
+       ACTOR 5: MOBILE NOTIFICATION SERVICE (Right, Middle)
+       ===================================================== -->
+  <g id="actor-notif" transform="translate(1375, 435)">
+    <rect x="-65" y="-35" width="130" height="75" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="0" y="-12" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" fill="#7c3aed" text-anchor="middle">«Service Actor»</text>
+    <text x="0" y="8" class="actor-name" font-size="13" fill="#5b21b6">Mobile Notification</text>
+    <text x="0" y="26" class="actor-name" font-size="13" fill="#5b21b6">Service / API</text>
+    <text x="0" y="54" class="actor-sub" font-size="11" fill="#6d28d9">Push / Firebase / APNs</text>
+  </g>
+
+  <!-- =====================================================
+       ASSOCIATIONS: PATIENT / USER
+       ===================================================== -->
+  <!-- Patient -> Login -->
+  <line x1="140" y1="340" x2="335" y2="195" class="assoc-line"/>
+  <!-- Patient -> Profile -->
+  <line x1="145" y1="360" x2="330" y2="280" class="assoc-line"/>
+  <!-- Patient -> Calibrate -->
+  <line x1="145" y1="375" x2="325" y2="375" class="assoc-line"/>
+  <!-- Patient -> Live Readings -->
+  <line x1="145" y1="395" x2="330" y2="470" class="assoc-line"/>
+  <!-- Patient -> Baseline & Thresholds -->
+  <line x1="140" y1="415" x2="325" y2="575" class="assoc-line"/>
+  <!-- Patient -> Timer & Status -->
+  <line x1="135" y1="435" x2="325" y2="685" class="assoc-line"/>
+  <!-- Patient -> Graphs / History (routed across) -->
+  <path d="M 145 340 Q 230 240 665 215" class="assoc-line"/>
+  <!-- Patient -> Alert History -->
+  <path d="M 145 400 Q 250 440 665 445" class="assoc-line"/>
+  <!-- Patient -> Receive Mobile Alert -->
+  <path d="M 145 350 Q 260 320 660 325" class="assoc-line"/>
+
+  <!-- =====================================================
+       ASSOCIATIONS: ESP32 DEVICE
+       ===================================================== -->
+  <!-- ESP32 -> Start Calibration (feeds 20 readings) -->
+  <line x1="165" y1="700" x2="365" y2="400" class="assoc-line" stroke="#16a34a"/>
+  <!-- ESP32 -> View Live Readings (feeds continuous data) -->
+  <line x1="165" y1="725" x2="335" y2="505" class="assoc-line" stroke="#16a34a"/>
+
+  <!-- =====================================================
+       ASSOCIATIONS: CAREGIVER
+       ===================================================== -->
+  <!-- Caregiver -> Login -->
+  <path d="M 1340 250 Q 1150 160 590 180" class="assoc-line"/>
+  <!-- Caregiver -> Profile -->
+  <path d="M 1340 265 Q 1100 245 590 270" class="assoc-line"/>
+  <!-- Caregiver -> Live Readings -->
+  <path d="M 1340 280 Q 1050 370 595 470" class="assoc-line"/>
+  <!-- Caregiver -> Baseline & Thresholds -->
+  <path d="M 1340 300 Q 1050 490 600 580" class="assoc-line"/>
+  <!-- Caregiver -> Timer & Status -->
+  <path d="M 1340 315 Q 1050 560 600 690" class="assoc-line"/>
+  <!-- Caregiver -> Graphs / History -->
+  <line x1="1340" y1="260" x2="935" y2="215" class="assoc-line"/>
+  <!-- Caregiver -> Receive Mobile Alert -->
+  <line x1="1340" y1="285" x2="940" y2="325" class="assoc-line"/>
+  <!-- Caregiver -> Alert History -->
+  <line x1="1340" y1="305" x2="935" y2="440" class="assoc-line"/>
+
+  <!-- =====================================================
+       ASSOCIATIONS: ADMIN
+       ===================================================== -->
+  <!-- Admin -> Login -->
+  <path d="M 1340 680 Q 1230 140 590 175" class="assoc-line" stroke="#475569"/>
+  <!-- Admin -> Manage Profile -->
+  <path d="M 1340 700 Q 1180 320 590 280" class="assoc-line" stroke="#475569"/>
+  <!-- Admin -> Assign Device to Patient -->
+  <line x1="1340" y1="710" x2="940" y2="575" class="assoc-line" stroke="#475569"/>
+  <!-- Admin -> Manage Users / Devices -->
+  <line x1="1340" y1="725" x2="940" y2="685" class="assoc-line" stroke="#475569"/>
+
+  <!-- =====================================================
+       ASSOCIATIONS: MOBILE NOTIFICATION SERVICE
+       ===================================================== -->
+  <!-- Service participates in Receive Mobile Alert -->
+  <line x1="1310" y1="435" x2="940" y2="335" class="assoc-line" stroke="#7c3aed" stroke-width="2"/>
+  <text x="1110" y="375" class="rel-text" fill="#7c3aed">«dispatches alert»</text>
+
+  <!-- =====================================================
+       DIAGRAM LEGEND / FOOTNOTE
+       ===================================================== -->
+  <rect x="290" y="855" width="900" height="55" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <circle cx="315" cy="882" r="7" fill="#2563eb"/>
+  <text x="330" y="886" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#334155">Core Monitoring Use Case</text>
+  <circle cx="505" cy="882" r="7" fill="#dc2626"/>
+  <text x="520" y="886" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#334155">Alert / Risk Notification</text>
+  <circle cx="685" cy="882" r="7" fill="#475569"/>
+  <text x="700" y="886" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#334155">Administration</text>
+  <circle cx="815" cy="882" r="7" fill="#7c3aed"/>
+  <text x="830" y="886" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#7c3aed">Mobile Notification Service (Push / FCM / APNs)</text>
+
+</svg>

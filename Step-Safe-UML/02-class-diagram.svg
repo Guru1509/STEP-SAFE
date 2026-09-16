@@ -1,0 +1,393 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1320" viewBox="0 0 1800 1320">
+<defs>
+<style>
+.title{font-family:'Segoe UI',Arial,sans-serif;font-size:30px;font-weight:700;fill:#0f172a;text-anchor:middle}
+.subtitle{font-family:'Segoe UI',Arial,sans-serif;font-size:15px;fill:#64748b;text-anchor:middle}
+.header{font-family:'Segoe UI',Arial,sans-serif;font-weight:700;fill:#0f172a;text-anchor:middle}
+.stereo{font-family:'Segoe UI',Arial,sans-serif;font-size:11px;font-style:italic;text-anchor:middle}
+.mono{font-family:'Consolas','Courier New',monospace;font-size:12px;fill:#1e293b}
+.sep{stroke:#94a3b8;stroke-width:1.2}
+.rel{stroke:#334155;stroke-width:1.8;fill:none}
+.notif{stroke:#7c3aed;stroke-width:1.9;fill:none}
+.label{font-family:'Segoe UI',Arial,sans-serif;font-size:12px;font-weight:600;fill:#334155}
+.nlabel{font-family:'Segoe UI',Arial,sans-serif;font-size:12px;font-weight:600;fill:#6d28d9}
+.mult{font-family:'Consolas','Courier New',monospace;font-size:12px;font-weight:700;fill:#0f172a}
+</style>
+<marker id="gen" markerWidth="16" markerHeight="16" refX="14" refY="8" orient="auto">
+<polygon points="2,2 14,8 2,14" fill="#fff" stroke="#334155" stroke-width="2"/>
+</marker>
+<marker id="open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+<path d="M1,1 L10,6 L1,11" fill="none" stroke="#334155" stroke-width="1.8"/>
+</marker>
+<marker id="purple" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+<path d="M1,1 L10,6 L1,11" fill="none" stroke="#7c3aed" stroke-width="1.8"/>
+</marker>
+<marker id="diamond" markerWidth="16" markerHeight="16" refX="1" refY="8" orient="auto">
+<polygon points="1,8 8,2 15,8 8,14" fill="#334155" stroke="#334155" stroke-width="1.5"/>
+</marker>
+<marker id="agg" markerWidth="16" markerHeight="16" refX="1" refY="8" orient="auto">
+<polygon points="1,8 8,2 15,8 8,14" fill="#fff" stroke="#334155" stroke-width="1.8"/>
+</marker>
+</defs>
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="900" y="42" class="title">STEP-SAFE — CLASS DIAGRAM</text>
+<text x="900" y="68" class="subtitle">Object-Oriented Architecture, Hardware Interfacing, Risk Logic, and Alert Profiles</text>
+
+<!-- USER / PROFILE LAYER -->
+<g>
+<rect x="70" y="105" width="250" height="160" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="70" y="105" width="250" height="40" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="70" y="135" width="250" height="10" fill="#f8fafc"/>
+<text x="195.0" y="120" class="stereo" fill="#0f172a">«abstract»</text>
+<text x="195.0" y="139" class="header" font-size="16" fill="#0f172a">User</text>
+<line x1="70" y1="145" x2="320" y2="145" class="sep"/>
+<text x="84" y="166" class="mono">- userId: int</text>
+<text x="84" y="182" class="mono">- username: string</text>
+<text x="84" y="198" class="mono">- role: RoleEnum</text>
+<text x="84" y="214" class="mono">- email: string</text>
+<line x1="70" y1="217" x2="320" y2="217" class="sep"/>
+<text x="84" y="238" class="mono">+ authenticate(): bool</text>
+<text x="84" y="254" class="mono">+ updatePassword(): void</text>
+</g>
+
+<g>
+<rect x="60" y="330" width="280" height="195" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="60" y="330" width="280" height="40" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="60" y="360" width="280" height="10" fill="#eff6ff"/>
+<text x="200.0" y="356" class="header" font-size="16" fill="#1e40af">PatientProfile</text>
+<line x1="60" y1="370" x2="340" y2="370" class="sep"/>
+<text x="74" y="391" class="mono">- patientId: int</text>
+<text x="74" y="407" class="mono">- userId: int</text>
+<text x="74" y="423" class="mono">- name: string</text>
+<text x="74" y="439" class="mono">- emergencyContact: string</text>
+<text x="74" y="455" class="mono">- alertPreferences: dict</text>
+<line x1="60" y1="458" x2="340" y2="458" class="sep"/>
+<text x="74" y="479" class="mono">+ getAssignedDevice(): Device</text>
+<text x="74" y="495" class="mono">+ getCaregivers(): List</text>
+<text x="74" y="511" class="mono">+ updatePreferences(p): void</text>
+</g>
+
+<g>
+<rect x="380" y="330" width="280" height="195" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="380" y="330" width="280" height="40" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="380" y="360" width="280" height="10" fill="#eff6ff"/>
+<text x="520.0" y="356" class="header" font-size="16" fill="#1e40af">CaregiverProfile</text>
+<line x1="380" y1="370" x2="660" y2="370" class="sep"/>
+<text x="394" y="391" class="mono">- caregiverId: int</text>
+<text x="394" y="407" class="mono">- userId: int</text>
+<text x="394" y="423" class="mono">- name: string</text>
+<text x="394" y="439" class="mono">- contactPhone: string</text>
+<text x="394" y="455" class="mono">- assignedPatients: List&lt;Patient&gt;</text>
+<line x1="380" y1="458" x2="660" y2="458" class="sep"/>
+<text x="394" y="479" class="mono">+ getAssignedPatients(): List</text>
+<text x="394" y="495" class="mono">+ monitorPatients(): void</text>
+<text x="394" y="511" class="mono">+ receiveAlertPush(n): void</text>
+</g>
+
+<g>
+<rect x="380" y="560" width="280" height="185" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="380" y="560" width="280" height="40" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="380" y="590" width="280" height="10" fill="#eff6ff"/>
+<text x="520.0" y="575" class="stereo" fill="#1e40af">«association / M:N mapping»</text>
+<text x="520.0" y="594" class="header" font-size="12" fill="#1e40af">CaregiverPatientAssignment</text>
+<line x1="380" y1="600" x2="660" y2="600" class="sep"/>
+<text x="394" y="621" class="mono">- assignmentId: int</text>
+<text x="394" y="637" class="mono">- caregiverId: int</text>
+<text x="394" y="653" class="mono">- patientId: int</text>
+<text x="394" y="669" class="mono">- relationshipType: string</text>
+<text x="394" y="685" class="mono">- assignedAt: datetime</text>
+<text x="394" y="701" class="mono">- isActive: bool = true</text>
+<line x1="380" y1="704" x2="660" y2="704" class="sep"/>
+<text x="394" y="725" class="mono">+ assign(caregiver, patient): void</text>
+<text x="394" y="741" class="mono">+ unassign(): void</text>
+</g>
+
+<!-- USER INHERITANCE: clean two branches -->
+<path d="M 200 330 L 200 290 L 320 290 L 320 265" class="rel" marker-end="url(#gen)"/>
+<path d="M 520 330 L 520 290 L 320 290" class="rel"/>
+<text x="340" y="282" class="label">inherits from</text>
+
+<!-- CAREGIVER ↔ PATIENT association -->
+<line x1="380" y1="425" x2="340" y2="425" class="rel"/>
+<text x="360" y="412" class="label" text-anchor="middle">monitors (M:N)</text>
+<text x="346" y="444" class="mult">*</text><text x="370" y="444" class="mult">*</text>
+
+<!-- Association class connector, routed below the boxes -->
+<path d="M 520 560 L 520 545 L 350 545 L 350 425" class="rel"/>
+<text x="355" y="536" class="label">association</text>
+
+<!-- ALERT / NOTIFICATION -->
+<g>
+<rect x="740" y="105" width="330" height="220" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+<rect x="740" y="105" width="330" height="40" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+<rect x="740" y="135" width="330" height="10" fill="#fef2f2"/>
+<text x="905.0" y="131" class="header" font-size="16" fill="#991b1b">Alert</text>
+<line x1="740" y1="145" x2="1070" y2="145" class="sep"/>
+<text x="754" y="166" class="mono">- alertId: int</text>
+<text x="754" y="182" class="mono">- patientId: int</text>
+<text x="754" y="198" class="mono">- deviceId: string</text>
+<text x="754" y="214" class="mono">- alertType: string</text>
+<text x="754" y="230" class="mono">  /* HIGH PRESSURE | HIGH RISK */</text>
+<text x="754" y="246" class="mono">- fsrValue: float</text>
+<text x="754" y="262" class="mono">- tempValue: float</text>
+<text x="754" y="278" class="mono">- durationSeconds: int /* &gt;= 30s */</text>
+<line x1="740" y1="281" x2="1070" y2="281" class="sep"/>
+<text x="754" y="302" class="mono">+ createAlert(): void</text>
+<text x="754" y="318" class="mono">+ acknowledge(): void</text>
+</g>
+
+<g>
+<rect x="1190" y="105" width="350" height="220" rx="10" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+<rect x="1190" y="105" width="350" height="40" rx="10" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+<rect x="1190" y="135" width="350" height="10" fill="#faf5ff"/>
+<text x="1365.0" y="120" class="stereo" fill="#5b21b6">«service entity»</text>
+<text x="1365.0" y="139" class="header" font-size="16" fill="#5b21b6">Notification</text>
+<line x1="1190" y1="145" x2="1540" y2="145" class="sep"/>
+<text x="1204" y="166" class="mono">- notificationId: int</text>
+<text x="1204" y="182" class="mono">- alertId: int</text>
+<text x="1204" y="198" class="mono">- recipientUserId: int</text>
+<text x="1204" y="214" class="mono">- recipientRole: string</text>
+<text x="1204" y="230" class="mono">- channel: string = &quot;Firebase / APNs Push&quot;</text>
+<text x="1204" y="246" class="mono">- message: string</text>
+<text x="1204" y="262" class="mono">- sentAt: datetime</text>
+<line x1="1190" y1="265" x2="1540" y2="265" class="sep"/>
+<text x="1204" y="286" class="mono">+ dispatchNotification(): bool</text>
+<text x="1204" y="302" class="mono">+ retryMobilePush(): void</text>
+</g>
+
+<line x1="1070" y1="215" x2="1190" y2="215" class="notif" marker-end="url(#purple)"/>
+<text x="1130" y="201" class="nlabel" text-anchor="middle">generates</text>
+<text x="1080" y="234" class="mult">1</text><text x="1172" y="234" class="mult">1..*</text>
+
+<!-- NOTIFICATION TO RECIPIENTS: use a clean bus, no crossing through boxes -->
+<path d="M 1365 325 L 1365 365 L 520 365 L 520 330" class="notif" marker-end="url(#purple)"/>
+<text x="950" y="355" class="nlabel" text-anchor="middle">sent to assigned profiles (1..*)</text>
+
+<!-- DEVICE -->
+<g>
+<rect x="60" y="785" width="280" height="190" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+<rect x="60" y="785" width="280" height="40" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+<rect x="60" y="815" width="280" height="10" fill="#f0fdf4"/>
+<text x="200.0" y="811" class="header" font-size="16" fill="#15803d">Device</text>
+<line x1="60" y1="825" x2="340" y2="825" class="sep"/>
+<text x="74" y="846" class="mono">- deviceId: string = &quot;step-safe-esp32&quot;</text>
+<text x="74" y="862" class="mono">- patientUserId: int (source of truth)</text>
+<text x="74" y="878" class="mono">- ipAddress: string = &quot;192.168.4.1&quot;</text>
+<text x="74" y="894" class="mono">- macAddress: string</text>
+<text x="74" y="910" class="mono">- status: string /* ACTIVE | CALIBRATING */</text>
+<text x="74" y="926" class="mono">- lastSeen: datetime</text>
+<line x1="60" y1="929" x2="340" y2="929" class="sep"/>
+<text x="74" y="950" class="mono">+ registerDevice(): void</text>
+<text x="74" y="966" class="mono">+ assignPatient(userId): void</text>
+</g>
+
+<!-- PATIENT -> DEVICE -->
+<line x1="200" y1="525" x2="200" y2="785" class="rel" marker-end="url(#open)"/>
+<text x="215" y="655" class="label">assigned to</text>
+<text x="178" y="550" class="mult">1</text><text x="178" y="772" class="mult">1</text>
+
+<!-- ALERT -> PATIENT and DEVICE, routed on left edge without crossing classes -->
+<path d="M 740 270 L 690 270 L 690 305 L 45 305 L 45 425 L 60 425" class="rel" marker-end="url(#open)"/>
+<text x="370" y="296" class="label" text-anchor="middle">belongs to Patient (1..*)</text>
+<path d="M 740 295 L 700 295 L 700 760 L 30 760 L 30 880 L 60 880" class="rel" marker-end="url(#open)"/>
+<text x="365" y="750" class="label" text-anchor="middle">belongs to Device (1..*)</text>
+
+<!-- EMBEDDED -->
+<g>
+<rect x="60" y="1020" width="300" height="235" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+<rect x="60" y="1020" width="300" height="40" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+<rect x="60" y="1050" width="300" height="10" fill="#f0fdf4"/>
+<text x="210.0" y="1046" class="header" font-size="16" fill="#15803d">ESP32Controller</text>
+<line x1="60" y1="1060" x2="360" y2="1060" class="sep"/>
+<text x="74" y="1081" class="mono">- wifiSSID: string = &quot;STEP-SAFE&quot;</text>
+<text x="74" y="1097" class="mono">- softApIP: string = &quot;192.168.4.1&quot;</text>
+<text x="74" y="1113" class="mono">- fsrPin: int = 34</text>
+<text x="74" y="1129" class="mono">- lm35Pin: int = 35</text>
+<text x="74" y="1145" class="mono">- buzzerPin: int = 25</text>
+<text x="74" y="1161" class="mono">- sendIntervalMs: int = 1000</text>
+<line x1="60" y1="1164" x2="360" y2="1164" class="sep"/>
+<text x="74" y="1185" class="mono">+ setupSoftAP(): void</text>
+<text x="74" y="1201" class="mono">+ readSensors(): void</text>
+<text x="74" y="1217" class="mono">+ postReadingToFlask(): void</text>
+<text x="74" y="1233" class="mono">+ activateBuzzer(on: bool): void</text>
+</g>
+
+<g>
+<rect x="405" y="820" width="285" height="190" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="405" y="820" width="285" height="40" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="405" y="850" width="285" height="10" fill="#f8fafc"/>
+<text x="547.5" y="846" class="header" font-size="16" fill="#0f172a">FSRPressureSensor</text>
+<line x1="405" y1="860" x2="690" y2="860" class="sep"/>
+<text x="419" y="881" class="mono">- gpioPin: int = 34</text>
+<text x="419" y="897" class="mono">- pullDownResistor: int = 10000</text>
+<text x="419" y="913" class="mono">- rawADC: float</text>
+<text x="419" y="929" class="mono">- voltage: float</text>
+<text x="419" y="945" class="mono">- pressureValue: float</text>
+<line x1="405" y1="948" x2="690" y2="948" class="sep"/>
+<text x="419" y="969" class="mono">+ sampleADC(): int</text>
+<text x="419" y="985" class="mono">+ getPressureValue(): float</text>
+</g>
+
+<g>
+<rect x="405" y="1050" width="285" height="180" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="405" y="1050" width="285" height="40" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="405" y="1080" width="285" height="10" fill="#f8fafc"/>
+<text x="547.5" y="1076" class="header" font-size="16" fill="#0f172a">LM35TemperatureSensor</text>
+<line x1="405" y1="1090" x2="690" y2="1090" class="sep"/>
+<text x="419" y="1111" class="mono">- gpioPin: int = 35</text>
+<text x="419" y="1127" class="mono">- voltageSupply: float = 5.0</text>
+<text x="419" y="1143" class="mono">- rawADC: int</text>
+<text x="419" y="1159" class="mono">- tempCelsius: float</text>
+<line x1="405" y1="1162" x2="690" y2="1162" class="sep"/>
+<text x="419" y="1183" class="mono">+ sampleADC(): int</text>
+<text x="419" y="1199" class="mono">+ getTemperatureC(): float</text>
+</g>
+
+<!-- Device -> ESP32Controller -->
+<line x1="200" y1="975" x2="200" y2="1020" class="rel" marker-start="url(#diamond)"/>
+<text x="215" y="1005" class="label">realized by</text>
+<text x="180" y="1000" class="mult">1</text><text x="180" y="1015" class="mult">1</text>
+
+<!-- ESP32 -> sensors -->
+<line x1="360" y1="905" x2="405" y2="905" class="rel" marker-start="url(#diamond)"/>
+<text x="370" y="892" class="mult">1</text><text x="392" y="892" class="mult">1</text>
+<path d="M 360 1120 L 385 1120 L 385 1140 L 405 1140" class="rel" marker-start="url(#diamond)"/>
+<text x="370" y="1130" class="mult">1</text><text x="392" y="1130" class="mult">1</text>
+
+<!-- BACKEND / LOGIC -->
+<g>
+<rect x="760" y="450" width="340" height="240" rx="10" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+<rect x="760" y="450" width="340" height="40" rx="10" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+<rect x="760" y="480" width="340" height="10" fill="#eff6ff"/>
+<text x="930.0" y="476" class="header" font-size="16" fill="#1e40af">FlaskBackend</text>
+<line x1="760" y1="490" x2="1100" y2="490" class="sep"/>
+<text x="774" y="511" class="mono">- serverHost: string = &quot;192.168.4.2&quot;</text>
+<text x="774" y="527" class="mono">- serverPort: int = 5000</text>
+<text x="774" y="543" class="mono">- isCalibrating: bool</text>
+<text x="774" y="559" class="mono">- sustainedTimerSeconds: int = 0</text>
+<line x1="760" y1="562" x2="1100" y2="562" class="sep"/>
+<text x="774" y="583" class="mono">+ postSensorReading(req): json</text>
+<text x="774" y="599" class="mono">+ startCalibration(req): json</text>
+<text x="774" y="615" class="mono">+ getLiveReadings(): json</text>
+<text x="774" y="631" class="mono">+ getHistoryData(): json</text>
+<text x="774" y="647" class="mono">+ triggerAlert(patientId, risk): void</text>
+<text x="774" y="663" class="mono">+ resetTimerAndBuzzer(): void</text>
+</g>
+
+<g>
+<rect x="730" y="760" width="300" height="195" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="730" y="760" width="300" height="40" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="730" y="790" width="300" height="10" fill="#f8fafc"/>
+<text x="880.0" y="786" class="header" font-size="16" fill="#0f172a">CalibrationManager</text>
+<line x1="730" y1="800" x2="1030" y2="800" class="sep"/>
+<text x="744" y="821" class="mono">- requiredSamples: int = 20</text>
+<text x="744" y="837" class="mono">- sampleCount: int = 0</text>
+<text x="744" y="853" class="mono">- fsrSamples: list&lt;float&gt;</text>
+<text x="744" y="869" class="mono">- tempSamples: list&lt;float&gt;</text>
+<line x1="730" y1="872" x2="1030" y2="872" class="sep"/>
+<text x="744" y="893" class="mono">+ begin20SampleCalibration(): void</text>
+<text x="744" y="909" class="mono">+ addSample(fsr, temp): bool</text>
+<text x="744" y="925" class="mono">+ calcFSRThreshold(): float</text>
+<text x="744" y="941" class="mono">+ calcTempThreshold(): float</text>
+</g>
+
+<g>
+<rect x="1070" y="760" width="300" height="195" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="1070" y="760" width="300" height="40" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="1070" y="790" width="300" height="10" fill="#f8fafc"/>
+<text x="1220.0" y="786" class="header" font-size="16" fill="#0f172a">RiskEvaluator</text>
+<line x1="1070" y1="800" x2="1370" y2="800" class="sep"/>
+<text x="1084" y="821" class="mono">- sustainedLimitSec: int = 30</text>
+<text x="1084" y="837" class="mono">- currentTimer: int</text>
+<text x="1084" y="853" class="mono">- isHighPressure: bool</text>
+<text x="1084" y="869" class="mono">- isHighRisk: bool</text>
+<line x1="1070" y1="872" x2="1370" y2="872" class="sep"/>
+<text x="1084" y="893" class="mono">+ evaluate(fsr, temp, sec): RiskStatus</text>
+<text x="1084" y="909" class="mono">+ check30sSustained(sec): bool</text>
+<text x="1084" y="925" class="mono">+ checkElevatedTemp(temp): bool</text>
+<text x="1084" y="941" class="mono">+ resetEvaluation(): void</text>
+</g>
+
+<g>
+<rect x="730" y="1015" width="340" height="225" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="730" y="1015" width="340" height="40" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<rect x="730" y="1045" width="340" height="10" fill="#f8fafc"/>
+<text x="900.0" y="1041" class="header" font-size="16" fill="#0f172a">SQLiteDatabase</text>
+<line x1="730" y1="1055" x2="1070" y2="1055" class="sep"/>
+<text x="744" y="1076" class="mono">- dbFile: string = &quot;step_safe.db&quot;</text>
+<text x="744" y="1092" class="mono">- connection: Connection</text>
+<line x1="730" y1="1095" x2="1070" y2="1095" class="sep"/>
+<text x="744" y="1116" class="mono">+ initTables(): void</text>
+<text x="744" y="1132" class="mono">+ saveReading(device, fsr, temp): void</text>
+<text x="744" y="1148" class="mono">+ saveCalibration(baselines, thresholds): void</text>
+<text x="744" y="1164" class="mono">+ insertEvent(eventObj): int</text>
+<text x="744" y="1180" class="mono">+ saveNotification(notifObj): void</text>
+<text x="744" y="1196" class="mono">+ getProfilesAndDevices(): list</text>
+<text x="744" y="1212" class="mono">+ queryReadingsHistory(limit): list</text>
+<text x="744" y="1228" class="mono">+ queryEvents(limit): list</text>
+</g>
+
+<!-- Backend connections -->
+<path d="M 360 1100 L 500 1100 L 500 690 L 760 690" class="rel" marker-end="url(#open)"/>
+<text x="560" y="1088" class="label" text-anchor="middle">HTTP POST /api/readings</text>
+
+<line x1="930" y1="450" x2="930" y2="325" class="rel" marker-end="url(#open)"/>
+<text x="945" y="395" class="label">creates</text>
+<text x="915" y="438" class="mult">1</text><text x="915" y="342" class="mult">0..*</text>
+
+<line x1="860" y1="690" x2="860" y2="760" class="rel" marker-start="url(#agg)"/>
+<text x="875" y="730" class="label">uses</text>
+
+<path d="M 1030 620 L 1140 620 L 1140 760" class="rel" marker-start="url(#agg)"/>
+<text x="1090" y="608" class="label" text-anchor="middle">evaluates</text>
+
+<path d="M 760 650 L 690 650 L 690 1120 L 730 1120" class="rel" marker-end="url(#open)"/>
+<text x="675" y="900" class="label" transform="rotate(-90 675 900)" text-anchor="middle">persists to SQLite</text>
+
+<!-- DASHBOARD -->
+<g>
+<rect x="1450" y="450" width="300" height="235" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="1450" y="450" width="300" height="40" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="1450" y="480" width="300" height="10" fill="#eff6ff"/>
+<text x="1600.0" y="476" class="header" font-size="16" fill="#1e40af">WebDashboard</text>
+<line x1="1450" y1="490" x2="1750" y2="490" class="sep"/>
+<text x="1464" y="511" class="mono">- activeMode: [&quot;Desktop&quot;, &quot;Mobile&quot;]</text>
+<text x="1464" y="527" class="mono">- currentPressure: float</text>
+<text x="1464" y="543" class="mono">- currentTemp: float</text>
+<text x="1464" y="559" class="mono">- timerDisplaySec: int /* 0-30s */</text>
+<text x="1464" y="575" class="mono">- alertBannerVisible: bool</text>
+<line x1="1450" y1="578" x2="1750" y2="578" class="sep"/>
+<text x="1464" y="599" class="mono">+ renderLiveTelemetry(): void</text>
+<text x="1464" y="615" class="mono">+ updateProgressTimer(val): void</text>
+<text x="1464" y="631" class="mono">+ renderCustomSvgCharts(): void</text>
+<text x="1464" y="647" class="mono">+ triggerCalibrationClick(): void</text>
+<text x="1464" y="663" class="mono">+ displayAlertToast(alert): void</text>
+</g>
+
+<!-- Dashboard ↔ Backend, routed in the gap -->
+<line x1="1450" y1="565" x2="1100" y2="565" class="rel" marker-start="url(#open)" marker-end="url(#open)"/>
+<text x="1275" y="550" class="label" text-anchor="middle">HTTP GET / POST / API</text>
+<text x="1112" y="585" class="mult">1</text><text x="1435" y="585" class="mult">1..*</text>
+
+<!-- Dashboard to users, a short semantic link to the user layer -->
+<path d="M 1600 450 L 1600 390 L 660 390 L 660 425" class="rel" marker-end="url(#open)"/>
+<text x="1110" y="382" class="label" text-anchor="middle">authenticated user context</text>
+
+<!-- Legend -->
+<g transform="translate(1440,760)">
+<rect width="310" height="190" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="20" y="28" class="header" text-anchor="start" font-size="15">Relationship Legend</text>
+<line x1="20" y1="52" x2="105" y2="52" class="rel"/>
+<text x="120" y="56" class="label">Association</text>
+<line x1="20" y1="82" x2="105" y2="82" class="notif"/>
+<text x="120" y="86" class="nlabel">Notification flow</text>
+<line x1="20" y1="112" x2="105" y2="112" class="rel" marker-end="url(#open)"/>
+<text x="120" y="116" class="label">Directed interaction</text>
+<line x1="20" y1="142" x2="105" y2="142" class="rel" marker-start="url(#agg)"/>
+<text x="120" y="146" class="label">Aggregation</text>
+<line x1="20" y1="172" x2="105" y2="172" class="rel" marker-start="url(#diamond)"/>
+<text x="120" y="176" class="label">Composition</text>
+</g>
+
+</svg>

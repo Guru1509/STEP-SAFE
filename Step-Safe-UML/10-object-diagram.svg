@@ -1,0 +1,326 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1680"
+     height="1260"
+     viewBox="0 0 1680 1260">
+
+  <!-- =====================================================
+       DEFINITIONS & STYLES
+       ===================================================== -->
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; fill: #475569; text-anchor: middle; }
+      .obj-header { font-family: 'Consolas', 'Courier New', monospace; font-size: 14.5px; font-weight: bold; text-decoration: underline; fill: #0f172a; text-anchor: middle; }
+      .obj-val { font-family: 'Consolas', 'Courier New', monospace; font-size: 11.5px; fill: #1e293b; }
+      .obj-val-alert { font-family: 'Consolas', 'Courier New', monospace; font-size: 11.5px; font-weight: bold; fill: #dc2626; }
+      .obj-val-green { font-family: 'Consolas', 'Courier New', monospace; font-size: 11.5px; font-weight: bold; fill: #16a34a; }
+      .link-line { stroke: #334155; stroke-width: 2; fill: none; }
+      .link-alert { stroke: #dc2626; stroke-width: 2; fill: none; }
+      .link-notif { stroke: #7c3aed; stroke-width: 2; fill: none; }
+      .link-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11.5px; font-weight: 600; fill: #475569; }
+    </style>
+
+    <marker id="navArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#334155" stroke-width="1.8"/>
+    </marker>
+
+    <marker id="alertArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#dc2626" stroke-width="1.8"/>
+    </marker>
+
+    <marker id="notifArrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#7c3aed" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1680" height="1260" fill="#ffffff"/>
+
+  <!-- Diagram Titles -->
+  <text x="840" y="42" class="title">STEP-SAFE — OBJECT DIAGRAM</text>
+  <text x="840" y="68" class="subtitle">Snapshot of Runtime Object Instances During 32-Second Sustained High Pressure Alert &amp; Mobile Escalation</text>
+
+  <!-- =====================================================
+       OBJECT LINKS (BACKGROUND WIRING)
+       ===================================================== -->
+
+  <!-- caregiver01 monitors patient01 -->
+  <line x1="390" y1="210" x2="390" y2="280" class="link-line"/>
+
+  <!-- patient01 assigned to device01 -->
+  <line x1="240" y1="460" x2="240" y2="540" class="link-line"/>
+
+  <!-- device01 reads fsr01 -->
+  <line x1="180" y1="740" x2="180" y2="820" class="link-line"/>
+
+  <!-- device01 reads lm35_01 -->
+  <path d="M 330 740 L 330 780 L 460 780 L 460 820" class="link-line"/>
+
+  <!-- device01 activates buzzer01 -->
+  <line x1="410" y1="640" x2="520" y2="640" class="link-alert" marker-end="url(#alertArrow)"/>
+
+  <!-- device01 triggers alert01 -->
+  <path d="M 380 540 L 380 430 L 730 430" class="link-alert" marker-end="url(#alertArrow)"/>
+
+  <!-- patient01 is subject of alert01 -->
+  <line x1="410" y1="370" x2="730" y2="370" class="link-alert"/>
+
+  <!-- alert01 generates notification01 -->
+  <line x1="1080" y1="370" x2="1190" y2="370" class="link-notif" marker-end="url(#notifArrow)"/>
+
+  <!-- notification01 delivered to caregiver01 & patient01 -->
+  <path d="M 1360 270 L 1360 170 L 450 170" class="link-notif" marker-end="url(#notifArrow)"/>
+  <path d="M 1360 270 L 1360 170 L 300 170 L 300 280" class="link-notif" marker-end="url(#notifArrow)"/>
+
+  <!-- dashboard01 receives live telemetry -->
+  <line x1="1080" y1="660" x2="840" y2="660" class="link-line"/>
+
+  <!-- alert01 logged in db01 -->
+  <line x1="905" y1="480" x2="905" y2="820" class="link-line"/>
+
+  <!-- device01 telemetry saved in db01 -->
+  <path d="M 410 700 L 710 700 L 710 820" class="link-line"/>
+
+  <!-- =====================================================
+       OBJECT 1: caregiver01 : CaregiverProfile (TOP LEFT)
+       ===================================================== -->
+  <g id="inst-caregiver" transform="translate(60, 110)">
+    <rect width="330" height="135" rx="8" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+    <rect width="330" height="34" rx="8" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+    <rect y="24" width="330" height="10" fill="#e2e8f0"/>
+    <text x="165" y="23" class="obj-header">caregiver01 : CaregiverProfile</text>
+    <line x1="0" y1="34" x2="330" y2="34" stroke="#94a3b8"/>
+    <!-- Slot values -->
+    <text x="15" y="52" class="obj-val">caregiverId = 201</text>
+    <text x="15" y="68" class="obj-val">name = "Sarah Smith, RN"</text>
+    <text x="15" y="84" class="obj-val">role = "Caregiver"</text>
+    <text x="15" y="100" class="obj-val">assignedPatients = [101, 102] (M:N Assignment)</text>
+    <text x="15" y="116" class="obj-val">notifyPreferences = "Immediate Push (High Risk)"</text>
+  </g>
+  <text x="400" y="250" class="link-label">monitors</text>
+
+  <!-- =====================================================
+       OBJECT 2: patient01 : PatientProfile (LEFT)
+       ===================================================== -->
+  <g id="inst-patient" transform="translate(60, 280)">
+    <rect width="350" height="180" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <rect width="350" height="34" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <rect y="24" width="350" height="10" fill="#dbeafe"/>
+    <text x="175" y="23" class="obj-header" fill="#1e40af">patient01 : PatientProfile</text>
+    <line x1="0" y1="34" x2="350" y2="34" stroke="#bfdbfe"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">patientId = 101</text>
+    <text x="15" y="72" class="obj-val">name = "John Doe"</text>
+    <text x="15" y="90" class="obj-val">role = "Patient / User"</text>
+    <text x="15" y="108" class="obj-val">assignedDeviceId = "step-safe-esp32"</text>
+    <text x="15" y="126" class="obj-val">alertPreferences = "Local Buzzer + Mobile Push"</text>
+    <text x="15" y="144" class="obj-val-alert">currentStatus = "HIGH PRESSURE ALERT"</text>
+    <text x="15" y="162" class="obj-val">assignedCaregiver = "caregiver01"</text>
+  </g>
+  <text x="250" y="505" class="link-label">assigned to</text>
+
+  <!-- =====================================================
+       OBJECT 3: device01 : ESP32Controller (MIDDLE LEFT)
+       ===================================================== -->
+  <g id="inst-device" transform="translate(60, 540)">
+    <rect width="350" height="200" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <rect width="350" height="34" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <rect y="24" width="350" height="10" fill="#dcfce7"/>
+    <text x="175" y="23" class="obj-header" fill="#15803d">device01 : ESP32Controller</text>
+    <line x1="0" y1="34" x2="350" y2="34" stroke="#bbf7d0"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">deviceId = "step-safe-esp32"</text>
+    <text x="15" y="72" class="obj-val">wifiSSID = "STEP-SAFE" (192.168.4.1)</text>
+    <text x="15" y="90" class="obj-val">backendTarget = "http://192.168.4.2:5000"</text>
+    <text x="15" y="108" class="obj-val">fsrPin = 34 | lm35Pin = 35 | buzzerPin = 25</text>
+    <text x="15" y="126" class="obj-val-alert">activeTimerSeconds = 32 (&gt;= 30s threshold!)</text>
+    <text x="15" y="144" class="obj-val-alert">buzzerState = HIGH / ACTIVE</text>
+    <text x="15" y="162" class="obj-val" font-weight="bold">sendIntervalMs = 1000</text>
+    <text x="15" y="180" class="obj-val-green">systemState = "CALIBRATED &amp; MONITORING"</text>
+  </g>
+
+  <!-- =====================================================
+       OBJECT 4: fsr01 : FSRPressureSensor (BOTTOM LEFT)
+       ===================================================== -->
+  <g id="inst-fsr" transform="translate(50, 820)">
+    <rect width="280" height="175" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <rect width="280" height="34" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <rect y="24" width="280" height="10" fill="#dcfce7"/>
+    <text x="140" y="23" class="obj-header" fill="#15803d">fsr01 : FSRPressureSensor</text>
+    <line x1="0" y1="34" x2="280" y2="34" stroke="#bbf7d0"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">gpioPin = 34 (ADC1_CH6)</text>
+    <text x="15" y="72" class="obj-val">dividerResistor = 10000 Ω</text>
+    <text x="15" y="90" class="obj-val" font-weight="bold" fill="#dc2626">rawADC = 680</text>
+    <text x="15" y="108" class="obj-val">voltage = 0.55 V</text>
+    <text x="15" y="126" class="obj-val-alert" font-weight="bold">currentPressure = 680</text>
+    <text x="15" y="144" class="obj-val">baseline = 150 | threshold = 180</text>
+    <text x="15" y="162" class="obj-val-alert">isThresholdExceeded = true</text>
+  </g>
+
+  <!-- =====================================================
+       OBJECT 5: lm35_01 : LM35TemperatureSensor (BOTTOM CENTER-LEFT)
+       ===================================================== -->
+  <g id="inst-lm35" transform="translate(360, 820)">
+    <rect width="290" height="175" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <rect width="290" height="34" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <rect y="24" width="290" height="10" fill="#dcfce7"/>
+    <text x="145" y="23" class="obj-header" fill="#15803d">lm35_01 : LM35TemperatureSensor</text>
+    <line x1="0" y1="34" x2="290" y2="34" stroke="#bbf7d0"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">gpioPin = 35 (ADC1_CH7)</text>
+    <text x="15" y="72" class="obj-val">supplyVoltage = 5.0 V</text>
+    <text x="15" y="90" class="obj-val">rawADC = 410 (330.3 mV)</text>
+    <text x="15" y="108" class="obj-val-green">currentTemperature = 33.0 °C</text>
+    <text x="15" y="126" class="obj-val">baseline = 32.5 °C</text>
+    <text x="15" y="144" class="obj-val">threshold = 34.5 °C (Base + 2°C)</text>
+    <text x="15" y="162" class="obj-val-green">isThresholdExceeded = false (Normal)</text>
+  </g>
+
+  <!-- =====================================================
+       OBJECT 6: buzzer01 : Buzzer (CENTER)
+       ===================================================== -->
+  <g id="inst-buzzer" transform="translate(520, 560)">
+    <rect width="250" height="150" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+    <rect width="250" height="34" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+    <rect y="24" width="250" height="10" fill="#fee2e2"/>
+    <text x="125" y="23" class="obj-header" fill="#991b1b">buzzer01 : Buzzer</text>
+    <line x1="0" y1="34" x2="250" y2="34" stroke="#fca5a5"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">gpioPin = 25 (Digital Output)</text>
+    <text x="15" y="72" class="obj-val-alert">state = "ON / ALARMING"</text>
+    <text x="15" y="90" class="obj-val-alert">triggerDuration = 32s</text>
+    <text x="15" y="108" class="obj-val">triggerReason = "30s Sustained"</text>
+    <text x="15" y="126" class="obj-val">audibleAlert = "Continuous while pressure is sustained"</text>
+    <text x="15" y="140" class="obj-val">autoResetOnRelease = true</text>
+  </g>
+  <text x="445" y="625" class="link-label" fill="#dc2626">activates (t&gt;=30s)</text>
+
+  <!-- =====================================================
+       OBJECT 7: alert01 : Alert (CENTER)
+       ===================================================== -->
+  <g id="inst-alert" transform="translate(730, 270)">
+    <rect width="350" height="210" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+    <rect width="350" height="34" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+    <rect y="24" width="350" height="10" fill="#fee2e2"/>
+    <text x="175" y="23" class="obj-header" fill="#991b1b">alert01 : Alert</text>
+    <line x1="0" y1="34" x2="350" y2="34" stroke="#fca5a5"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">alertId = 501</text>
+    <text x="15" y="72" class="obj-val">patientId = 101</text>
+    <text x="15" y="90" class="obj-val">deviceId = "step-safe-esp32"</text>
+    <text x="15" y="108" class="obj-val-alert">alertType = "HIGH PRESSURE"</text>
+    <text x="15" y="126" class="obj-val">fsrPeakValue = 680 (Threshold = 180)</text>
+    <text x="15" y="144" class="obj-val">tempValue = 33.0 °C (Normal)</text>
+    <text x="15" y="162" class="obj-val-alert">durationSeconds = 32 (&gt;= 30s)</text>
+    <text x="15" y="180" class="obj-val">timestamp = "2026-09-08 21:45:32"</text>
+    <text x="15" y="198" class="obj-val-alert">resolved = false</text>
+  </g>
+  <text x="560" y="362" class="link-label" fill="#dc2626">belongs to</text>
+  <text x="1100" y="362" class="link-label" fill="#7c3aed">generates</text>
+
+  <!-- =====================================================
+       OBJECT 8: notification01 : Notification (TOP RIGHT)
+       Instance 10: Sustained High Pressure Alert
+       ===================================================== -->
+  <g id="inst-notif" transform="translate(1190, 270)">
+    <rect width="440" height="210" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+    <rect width="440" height="34" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+    <rect y="24" width="440" height="10" fill="#ede9fe"/>
+    <text x="220" y="23" class="obj-header" fill="#5b21b6">notification01 : Notification</text>
+    <line x1="0" y1="34" x2="440" y2="34" stroke="#ddd6fe"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val" fill="#6d28d9">notificationId = 901</text>
+    <text x="15" y="72" class="obj-val" fill="#6d28d9">alertId = 501</text>
+    <text x="15" y="90" class="obj-val" font-weight="bold" fill="#5b21b6">serviceType = "Firebase/APNs Mobile Notification Service"</text>
+    <text x="15" y="108" class="obj-val" fill="#6d28d9">recipients = ["patient01", "caregiver01"]</text>
+    <text x="15" y="126" class="obj-val" fill="#6d28d9">channel = "Mobile Push Notification Gateway"</text>
+    <text x="15" y="144" class="obj-val" fill="#6d28d9">message = "Educational prototype alert: Sustained high pressure."</text>
+    <text x="15" y="162" class="obj-val" font-weight="bold" fill="#6d28d9">advice = "Sustained high pressure detected for 32 seconds. Please check the STEP-SAFE dashboard."</text>
+    <text x="15" y="180" class="obj-val" font-weight="bold" fill="#7c3aed">dispatchStatus = "SENT / DELIVERED TO MOBILE"</text>
+    <text x="15" y="198" class="obj-val" fill="#6d28d9">sentAt = "2026-09-08 21:45:32"</text>
+  </g>
+  <text x="900" y="162" class="link-label" fill="#7c3aed">dispatched to patient &amp; caregiver profiles</text>
+
+  <!-- =====================================================
+       OBJECT 9: dashboard01 : WebDashboard (MIDDLE RIGHT)
+       (Updated: static/dashboard.js custom SVG charts)
+       ===================================================== -->
+  <g id="inst-dashboard" transform="translate(1080, 550)">
+    <rect width="400" height="200" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <rect width="400" height="34" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <rect y="24" width="400" height="10" fill="#dbeafe"/>
+    <text x="200" y="23" class="obj-header" fill="#1e40af">dashboard01 : WebDashboard</text>
+    <line x1="0" y1="34" x2="400" y2="34" stroke="#bfdbfe"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">activeView = "Mobile Responsive View"</text>
+    <text x="15" y="72" class="obj-val">clientIP = "192.168.4.3" (Patient Smartphone)</text>
+    <text x="15" y="90" class="obj-val-alert">livePressure = 680 (Threshold = 180)</text>
+    <text x="15" y="108" class="obj-val-green">liveTemp = 33.0 °C (Threshold = 34.5 °C)</text>
+    <text x="15" y="126" class="obj-val-alert">timerDisplay = "32s / 30s (EXCEEDED)"</text>
+    <text x="15" y="144" class="obj-val-alert">alertBannerVisible = true ("HIGH PRESSURE")</text>
+    <text x="15" y="162" class="obj-val">audioAlarmTone = "PLAYING"</text>
+    <text x="15" y="180" class="obj-val" font-weight="bold" fill="#1d4ed8">chartEngine = "static/dashboard.js (custom SVG)"</text>
+    <text x="15" y="194" class="obj-val">supportedLayouts = ["Desktop 1080p", "Mobile Touch"]</text>
+  </g>
+  <text x="910" y="650" class="link-label">HTTP live stream</text>
+
+  <!-- =====================================================
+       OBJECT 10: db01 : SQLiteDatabase (BOTTOM RIGHT)
+       ===================================================== -->
+  <g id="inst-db" transform="translate(680, 820)">
+    <rect width="420" height="180" rx="8" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <rect width="420" height="34" rx="8" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+    <rect y="24" width="420" height="10" fill="#e2e8f0"/>
+    <text x="210" y="23" class="obj-header">db01 : SQLiteDatabase</text>
+    <line x1="0" y1="34" x2="420" y2="34" stroke="#cbd5e1"/>
+    <!-- Slot values -->
+    <text x="15" y="54" class="obj-val">databasePath = "step_safe.db"</text>
+    <text x="15" y="72" class="obj-val">hostEnvironment = "MacBook macOS (Python 3.10)"</text>
+    <text x="15" y="90" class="obj-val">readingsCount = 1420 rows</text>
+    <text x="15" y="108" class="obj-val">activeCalibration = {FSR_Base:150, Thr:180, Temp_Base:32.5, Thr:34.5}</text>
+    <text x="15" y="126" class="obj-val-alert">eventsLoggedCount = 3 rows (Latest: Event #501)</text>
+    <text x="15" y="144" class="obj-val">registeredProfiles = 3 ("Patient", "Caregiver", "Admin")</text>
+    <text x="15" y="162" class="obj-val-green">databaseStatus = "CONNECTED &amp; PERSISTING"</text>
+  </g>
+  <text x="815" y="805" class="link-label">persists alert &amp; telemetry</text>
+
+  <!-- =====================================================
+       DIAGRAM FOOTNOTE & SCENARIO CONTEXT
+       ===================================================== -->
+  <g transform="translate(60, 1040)">
+    <rect width="1560" height="170" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="25" y="26" font-family="'Segoe UI', Arial" font-size="13" font-weight="bold" fill="#0f172a">RUNTIME SCENARIO CONTEXT — 32-SECOND SUSTAINED HIGH PRESSURE EVENT:</text>
+    <text x="25" y="50" font-family="'Segoe UI', Arial" font-size="12" fill="#334155">
+      • <tspan font-weight="bold">Zero-Load Calibration Completed:</tspan> 20 samples yielded FSR baseline of 150 (threshold = 180) and temperature baseline of 32.5 °C (threshold = 34.5 °C).
+    </text>
+    <text x="25" y="72" font-family="'Segoe UI', Arial" font-size="12" fill="#334155">
+      • <tspan font-weight="bold">Sustained Pressure Rule Triggered:</tspan> Patient applied sustained stance; FSR reading rose to 680 (exceeding threshold of 180). Timer ran past 30 seconds (current value: 32s).
+    </text>
+    <text x="25" y="94" font-family="'Segoe UI', Arial" font-size="12" fill="#334155">
+      • <tspan font-weight="bold">High Pressure Classification:</tspan> Temperature reading is 33.0 °C (below 34.5 °C threshold), classifying this condition as HIGH PRESSURE (elevated temp would escalate to HIGH RISK).
+    </text>
+    <text x="25" y="116" font-family="'Segoe UI', Arial" font-size="12" fill="#334155">
+      • <tspan font-weight="bold">Local &amp; Remote Escalation:</tspan> ESP32 activated local piezo buzzer on GPIO 25; Flask backend recorded Event #501 in SQLite events table and dispatched notification #901 via Firebase/APNs.
+    </text>
+    <text x="25" y="138" font-family="'Segoe UI', Arial" font-size="12" fill="#7c3aed">
+      • <tspan font-weight="bold">Notification Delivery:</tspan> notification01 dispatched via Firebase/APNs Mobile Notification Service to Patient and Caregiver profiles: "Sustained high pressure detected for 32 seconds. Please check the STEP-SAFE dashboard."
+    </text>
+  </g>
+
+</svg>

@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STEP-SAFE Smart Foot Monitoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- Global Top Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <h1>STEP-SAFE</h1>
+        <p class="brand-sub">Smart Foot-Pressure &amp; Temperature Monitoring</p>
+      </div>
+
+      <!-- Navigation & User Status Controls -->
+      <div class="header-controls">
+        <!-- Role Navigation Tabs (Rendered dynamically when logged in) -->
+        <nav id="roleNav" class="role-nav" style="display: none;"></nav>
+
+        <!-- Notification Bell -->
+        <div class="notif-wrapper" id="notifWrapper" style="display: none;">
+          <button id="notifBell" class="btn-icon" aria-label="Notifications">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span id="notifBadge" class="notif-badge" style="display: none;">0</span>
+          </button>
+
+          <!-- In-App Notification Center Drawer -->
+          <div id="notifDrawer" class="notif-drawer" style="display: none;">
+            <div class="notif-header">
+              <h3>Notifications</h3>
+              <button id="markAllRead" class="btn-text">Mark all read</button>
+            </div>
+            <div id="notifList" class="notif-list">
+              <div class="notif-empty">No notifications yet.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Profile Badge & Auth Actions -->
+        <div id="userMenu" class="user-menu">
+          <span id="userBadge" class="role-pill" style="display: none;"></span>
+          <span id="userName" class="user-name" style="display: none;"></span>
+          <button id="logoutBtn" class="btn-secondary" style="display: none;">Logout</button>
+          <button id="loginModalBtn" class="btn-primary">Login</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Emergency Banner (Appears when HIGH PRESSURE or HIGH RISK is active) -->
+  <div id="alertBanner" class="alert-banner" style="display: none;">
+    <div class="alert-content">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-text">
+        <strong id="alertBannerTitle">SUSTAINED PRESSURE ALERT</strong>
+        <p id="alertBannerMsg">Sustained high pressure detected (&ge;30s). Please check patient posture.</p>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- View 1: Login View / Modal -->
+    <section id="loginView" class="view-panel login-view" style="display: none;">
+      <div class="login-card">
+        <h2>Sign In to STEP-SAFE</h2>
+        <p class="login-sub">Select your account role to access telemetry and alerts.</p>
+        
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" placeholder="user@stepsafe.local" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <div id="loginError" class="form-error" style="display: none;"></div>
+          <button type="submit" id="loginSubmitBtn" class="btn-primary full-width">Sign In</button>
+        </form>
+
+        <!-- Quick Demo Switcher (Available during demonstration or when seeded) -->
+        <div class="demo-quick-login">
+          <span class="demo-divider">Quick Demo Login</span>
+          <div class="demo-btn-grid">
+            <button type="button" class="btn-demo" onclick="quickLogin('patient@stepsafe.local', 'patient123')">
+              <strong>Patient</strong>
+              <small>patient@stepsafe.local</small>
+            </button>
+            <button type="button" class="btn-demo" onclick="quickLogin('caregiver@stepsafe.local', 'caregiver123')">
+              <strong>Caregiver</strong>
+              <small>caregiver@stepsafe.local</small>
+            </button>
+            <button type="button" class="btn-demo" onclick="quickLogin('admin@stepsafe.local', 'admin123')">
+              <strong>Admin</strong>
+              <small>admin@stepsafe.local</small>
+            </button>
+          </div>
+
+          <div class="login-instructions">
+            <p class="instruction-title">Account Setup Instructions</p>
+            <ol>
+              <li><strong>Demo Testing:</strong> Run <code>flask seed-demo</code> in terminal to load test accounts, then click a role above.</li>
+              <li><strong>Admin Bootstrap:</strong> Run <code>flask bootstrap-admin</code> to configure your primary administrator credentials.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 2: Caregiver Patients View -->
+    <section id="caregiverView" class="view-panel" style="display: none;">
+      <div class="panel-header">
+        <div>
+          <h2>Assigned Patients</h2>
+          <p>Real-time status overview for patients assigned to your care.</p>
+        </div>
+      </div>
+      <div id="patientCardsGrid" class="patient-grid">
+        <div class="loading-state">Loading assigned patients…</div>
+      </div>
+    </section>
+
+    <!-- View 3: Admin Management View -->
+    <section id="adminView" class="view-panel" style="display: none;">
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" onclick="switchAdminSubTab('usersTab')">Users</button>
+        <button class="admin-tab-btn" onclick="switchAdminSubTab('devicesTab')">Devices</button>
+        <button class="admin-tab-btn" onclick="switchAdminSubTab('assignmentsTab')">Caregiver M:N Assignments</button>
+      </div>
+
+      <!-- Admin Subtab 1: Users -->
+      <div id="usersTab" class="admin-subpanel">
+        <div class="admin-actions-bar">
+          <h3>User Management</h3>
+          <button id="openCreateUserModal" class="btn-primary btn-sm">+ Create User</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Assigned Device</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="adminUsersTable"><tr><td colspan="7">Loading users…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Subtab 2: Devices -->
+      <div id="devicesTab" class="admin-subpanel" style="display: none;">
+        <div class="admin-actions-bar">
+          <h3>Hardware Device Registry</h3>
+          <button id="openCreateDeviceModal" class="btn-primary btn-sm">+ Register Device</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr><th>Device ID</th><th>Display Name</th><th>Assigned Patient</th><th>Status</th><th>Assignment Action</th></tr>
+            </thead>
+            <tbody id="adminDevicesTable"><tr><td colspan="5">Loading devices…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Subtab 3: Caregiver Assignments -->
+      <div id="assignmentsTab" class="admin-subpanel" style="display: none;">
+        <div class="admin-actions-bar">
+          <h3>Caregiver-to-Patient Many-to-Many Mappings</h3>
+        </div>
+        <div class="assign-form-card">
+          <h4>Add New Assignment</h4>
+          <form id="assignCaregiverForm" class="inline-form">
+            <select id="assignCaregiverSelect" required><option value="">Select Caregiver…</option></select>
+            <select id="assignPatientSelect" required><option value="">Select Patient…</option></select>
+            <button type="submit" class="btn-primary btn-sm">Assign Link</button>
+          </form>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr><th>Caregiver</th><th>Patient</th><th>Assigned Date</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="adminAssignmentsTable"><tr><td colspan="4">Loading assignments…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 4: Patient Profile & Preferences View -->
+    <section id="profileView" class="view-panel" style="display: none;">
+      <div class="panel-header">
+        <h2>My Patient Profile</h2>
+        <p>Manage contact information and notification preferences.</p>
+      </div>
+      <div class="profile-card">
+        <form id="profileForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="profName">Full Name</label>
+              <input type="text" id="profName" required>
+            </div>
+            <div class="form-group">
+              <label for="profEmail">Email Address</label>
+              <input type="email" id="profEmail" disabled>
+            </div>
+            <div class="form-group">
+              <label for="profDob">Date of Birth</label>
+              <input type="date" id="profDob">
+            </div>
+            <div class="form-group">
+              <label for="profEmergency">Emergency Contact Details</label>
+              <input type="text" id="profEmergency" placeholder="Name &amp; Phone Number">
+            </div>
+          </div>
+          <div class="pref-group">
+            <h3>Notification Preferences</h3>
+            <label class="checkbox-label">
+              <input type="checkbox" id="prefInApp" checked> In-App Dashboard Alerts (Always active)
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="prefPush" checked> Mobile Push Notifications (via Firebase / APNs)
+            </label>
+          </div>
+          <div id="profFeedback" class="form-success" style="display: none;"></div>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- View 5: Core Telemetry Dashboard (Preserved structure & element IDs) -->
+    <section id="telemetryView" class="view-panel">
+      <!-- Device Context Banner (Shows device & patient being monitored) -->
+      <div id="deviceContextBanner" class="device-context-banner" style="display: none;">
+        <div class="ctx-details">
+          <span class="pulse-indicator"></span>
+          <span class="ctx-label">ACTIVE MONITORING DEVICE:</span>
+          <strong id="activeDeviceLabel">step-safe-esp32</strong>
+          <span id="activePatientLabel" class="ctx-patient"></span>
+        </div>
+        <button id="backToPatientsBtn" class="btn-secondary btn-sm" style="display: none;">&larr; Back to Patients</button>
+      </div>
+
+      <!-- Core Sensor Metric Cards -->
+      <section class="cards">
+        <article class="metric-card">
+          <div class="card-header">
+            <h2>FSR pressure</h2>
+            <span class="metric-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m16 12-4-4-4 4"></path>
+                <path d="M12 16V8"></path>
+              </svg>
+            </span>
+          </div>
+          <strong id="fsr">—</strong>
+          <small id="fsrInfo">Threshold: —</small>
+        </article>
+        <article class="metric-card">
+          <div class="card-header">
+            <h2>Temperature</h2>
+            <span class="metric-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+              </svg>
+            </span>
+          </div>
+          <strong id="temp">—</strong>
+          <small id="tempInfo">Threshold: —</small>
+        </article>
+        <article class="metric-card">
+          <div class="card-header">
+            <h2>System status</h2>
+            <span class="metric-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </span>
+          </div>
+          <strong id="status" class="status">WAITING</strong>
+          <small id="updated">No data received</small>
+        </article>
+        <article class="metric-card">
+          <div class="card-header">
+            <h2>Pressure timer</h2>
+            <span class="metric-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </span>
+          </div>
+          <strong id="duration">0 / 30 s</strong>
+          <small id="timerHint">Waiting for pressure</small>
+          <!-- 30-second horizontal timer progress bar -->
+          <div class="timer-track">
+            <div id="timerProgress" class="timer-progress"></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Calibration Control Panel (Restricted to authenticated Patients only) -->
+      <section id="calibrationPanel" class="panel calibration" style="display: none;">
+        <div class="calib-info-block">
+          <div class="calib-header-row">
+            <h2>Calibration</h2>
+            <span id="calibStatusBadge" class="calib-badge" style="display: none;">In Progress</span>
+          </div>
+          <p id="calibrationText">Collects 20 incoming readings to establish an individual demo baseline.</p>
+          <div id="calibProgressWrap" class="calib-progress-wrap" style="display: none;">
+            <div class="calib-progress-track">
+              <div id="calibProgressBar" class="calib-progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="calib-progress-labels">
+              <span id="calibProgressText">0 / 20 readings (0%)</span>
+              <span class="calib-subtext">Keep foot relaxed in baseline position</span>
+            </div>
+          </div>
+        </div>
+        <button id="calibrate" style="display: none;">Start calibration</button>
+      </section>
+
+      <!-- Calibration Baseline & Threshold Values Grid -->
+      <section class="panel calibration-values">
+        <div class="calibration-heading">
+          <h2>Calibration values</h2>
+          <p>Saved after the 20-reading calibration finishes.</p>
+        </div>
+        <div class="threshold-grid">
+          <article>
+            <h3>FSR pressure</h3>
+            <div><span>Baseline</span><b id="fsrBaseline">—</b></div>
+            <div><span>Pressure threshold (+20%)</span><b id="fsrThreshold">—</b></div>
+          </article>
+          <article>
+            <h3>Temperature</h3>
+            <div><span>Baseline</span><b id="tempBaseline">—</b></div>
+            <div><span>High-temperature threshold (+2°C)</span><b id="tempThreshold">—</b></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Telemetry Aggregate Statistics Row -->
+      <section class="stats">
+        <article><span>Total readings</span><b id="readingCount">0</b></article>
+        <article><span>Average FSR</span><b id="avgFsr">—</b></article>
+        <article><span>Average temperature</span><b id="avgTemp">—</b></article>
+        <article><span>Events</span><b id="eventCount">0</b></article>
+      </section>
+
+      <!-- Custom Dynamic SVG History Charts -->
+      <section class="charts">
+        <article class="panel">
+          <h2>FSR history</h2>
+          <div id="fsrChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <h2>Temperature history</h2>
+          <div id="tempChart" class="chart"></div>
+        </article>
+      </section>
+
+      <!-- Pressure & High-Risk Event History -->
+      <section class="panel events-card">
+        <div class="events-card-header">
+          <h2>Recent pressure / high-risk events</h2>
+          <span id="eventLogCountBadge" class="events-count-badge"></span>
+        </div>
+        <div id="events" class="events-log-list">
+          <div class="events-empty">No events yet.</div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Create User Modal -->
+  <div id="createUserModal" class="modal" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Create New User Profile</h3>
+        <button class="btn-close" onclick="closeModal('createUserModal')">&times;</button>
+      </div>
+      <form id="createUserForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="newUserName" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="newUserEmail" required>
+        </div>
+        <div class="form-group">
+          <label>Temporary Password</label>
+          <input type="password" id="newUserPassword" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <select id="newUserRole">
+            <option value="patient">Patient</option>
+            <option value="caregiver">Caregiver</option>
+            <option value="admin">Administrator</option>
+          </select>
+        </div>
+        <div id="createUserError" class="form-error" style="display: none;"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('createUserModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Create User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Register Device Modal -->
+  <div id="createDeviceModal" class="modal" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Register New ESP32 Device</h3>
+        <button class="btn-close" onclick="closeModal('createDeviceModal')">&times;</button>
+      </div>
+      <form id="createDeviceForm">
+        <div class="form-group">
+          <label>Device ID (e.g. step-safe-esp32-02)</label>
+          <input type="text" id="newDeviceId" required>
+        </div>
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" id="newDeviceName" placeholder="Right Foot Insole #2">
+        </div>
+        <div id="createDeviceError" class="form-error" style="display: none;"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('createDeviceModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Register Device</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
