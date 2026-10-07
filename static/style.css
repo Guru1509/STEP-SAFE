@@ -441,7 +441,7 @@ main {
   height: 100%;
   width: 0%;
   background: var(--status-pressure);
-  transition: width 0.3s ease;
+  transition: none;
 }
 .timer-progress.paused {
   background: #38bdf8;
@@ -503,7 +503,7 @@ main {
   width: 0%;
   background: linear-gradient(90deg, #38bdf8, #4fe3c1);
   border-radius: 99px;
-  transition: width 0.15s ease-out;
+  transition: none;
   box-sizing: border-box;
 }
 .calib-progress-labels {

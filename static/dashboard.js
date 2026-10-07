@@ -60,6 +60,56 @@ let pollCount = 0;
 let wasCalibrating = false;
 let calibDoneHideTimeout = null;
 
+// Backend-authoritative pressure timer state.
+// The displayed timer is derived from pressure_started_at, never from
+// an independent frontend start/stop counter.
+let livePressureStartedAt = null;
+let livePressureActive = false;
+let livePressureCalibrating = false;
+
+function updatePressureTimerDisplay() {
+  const durationEl = $('duration');
+  const progressEl = $('timerProgress');
+  if (!durationEl || !progressEl) return;
+
+  if (livePressureCalibrating || !livePressureActive || !livePressureStartedAt) {
+    durationEl.textContent = '0 / 30 s';
+    progressEl.style.width = '0%';
+    return;
+  }
+
+  const started = new Date(livePressureStartedAt).getTime();
+  if (!Number.isFinite(started)) {
+    durationEl.textContent = '0 / 30 s';
+    progressEl.style.width = '0%';
+    return;
+  }
+
+  const elapsed = Math.min(
+    30,
+    Math.max(0, (Date.now() - started) / 1000)
+  );
+
+  durationEl.textContent = `${Math.floor(elapsed)} / 30 s`;
+  progressEl.style.width = `${(elapsed / 30) * 100}%`;
+}
+
+function startPressureTimerDisplayLoop() {
+  if (window.stepSafePressureTimer) {
+    cancelAnimationFrame(window.stepSafePressureTimer);
+  }
+
+  const tick = () => {
+    updatePressureTimerDisplay();
+    window.stepSafePressureTimer = requestAnimationFrame(tick);
+  };
+
+  tick();
+}
+
+startPressureTimerDisplayLoop();
+
+
 async function refreshTelemetry() {
   if (activeView !== 'telemetry' && activeView !== 'caregiver') return;
 
@@ -88,6 +138,12 @@ async function refreshTelemetry() {
     const isCalibrating = Boolean(live.calibration_running);
     const samples = Number(live.calibration_samples) || 0;
     const pctCalib = Math.min(100, Math.round((samples / 20) * 100));
+    // Backend is the source of truth for the pressure timer.
+    livePressureCalibrating = isCalibrating;
+    livePressureStartedAt = live.pressure_started_at || null;
+    livePressureActive = Boolean(
+      r && ['PRESSURE', 'HIGH_PRESSURE', 'HIGH_RISK'].includes(r.status)
+    );
 
     if (isCalibrating) {
       // While in calibration, pressure timer is strictly suspended
@@ -106,19 +162,21 @@ async function refreshTelemetry() {
       }
     } else if (r) {
       $('timerProgress').classList.remove('paused');
-      const elapsed = Math.min(Math.max(0, Number(r.pressure_seconds) || 0), 30);
       const pressureActive = ['PRESSURE', 'HIGH_PRESSURE', 'HIGH_RISK'].includes(r.status);
 
       $('fsr').textContent = value(r.fsr, 0);
       $('temp').textContent = value(r.temperature) + ' °C';
-      $('duration').textContent = `${elapsed} / 30 s`;
+      updatePressureTimerDisplay();
       
-      // 30-second horizontal progress bar update
-      const pct = Math.min(100, (elapsed / 30) * 100);
-      $('timerProgress').style.width = pct + '%';
+      const timerStarted = livePressureStartedAt
+        ? new Date(livePressureStartedAt).getTime()
+        : NaN;
+      const displayElapsed = Number.isFinite(timerStarted)
+        ? Math.min(30, Math.max(0, (Date.now() - timerStarted) / 1000))
+        : 0;
 
       $('timerHint').textContent = pressureActive
-        ? (elapsed < 30 ? 'Pressure detected — buzzer activates after 30 seconds.' : '30 seconds reached — buzzer & sustained-pressure alert active!')
+        ? (displayElapsed < 30 ? 'Pressure detected — buzzer activates after 30 seconds.' : '30 seconds reached — buzzer & sustained-pressure alert active!')
         : 'Waiting for pressure';
 
       $('status').textContent = r.status.replace('_', ' ');
