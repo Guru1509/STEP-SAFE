@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 import click
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, jsonify, redirect, render_template, request, send_from_directory, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from notifications import NotificationService
@@ -528,6 +528,15 @@ def update_event_and_dispatch_notifications(
 # ---------------------------------------------------------------------------
 # Web Presentation Routes (Login & Dashboard)
 # ---------------------------------------------------------------------------
+
+
+@app.get("/firebase-messaging-sw.js")
+def firebase_messaging_service_worker():
+    """Serve the FCM worker at the site root so it can control dashboard pages."""
+    response = send_from_directory(app.static_folder, "firebase-messaging-sw.js", mimetype="application/javascript")
+    response.headers["Cache-Control"] = "no-cache"
+    return response
+
 
 @app.get("/")
 def dashboard():

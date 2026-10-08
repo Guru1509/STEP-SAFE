@@ -11,6 +11,96 @@ let activeView = "telemetry"; // 'telemetry', 'login', 'caregiver', 'admin', 'pr
 let refreshTimer = null;
 let notifPollTimer = null;
 
+let firebasePushSetupPromise = null;
+
+function setPushButtonState(button, text, disabled = false) {
+  if (!button) return;
+  button.textContent = text;
+  button.disabled = disabled;
+}
+
+async function initializeFirebasePush(button) {
+  if (firebasePushSetupPromise) return firebasePushSetupPromise;
+  firebasePushSetupPromise = (async () => {
+    try {
+      if (!currentUser) throw new Error('Sign in before enabling push notifications.');
+      if (!('serviceWorker' in navigator) || !('Notification' in window)) {
+        throw new Error('This browser does not support web push notifications.');
+      }
+      if (!window.isSecureContext) {
+        throw new Error('Push notifications require HTTPS (localhost is supported for development).');
+      }
+
+      const config = typeof STEP_SAFE_FIREBASE_CONFIG !== 'undefined' ? STEP_SAFE_FIREBASE_CONFIG : null;
+      if (!config || !config.apiKey || !config.projectId) {
+        throw new Error('Firebase web configuration is missing.');
+      }
+      if (!config.vapidKey) {
+        throw new Error('Add the Firebase Web Push certificate key to static/js/firebase-config.js first.');
+      }
+
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        throw new Error(permission === 'denied'
+          ? 'Notifications are blocked in browser settings.'
+          : 'Notification permission was not granted.');
+      }
+
+      if (!window.firebase) throw new Error('Firebase SDK did not load.');
+      const app = firebase.apps.length ? firebase.app() : firebase.initializeApp(config);
+      const messaging = firebase.messaging(app);
+      await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      const registration = await navigator.serviceWorker.ready;
+      if (!registration.active) {
+        throw new Error('The push service worker is not active yet. Please retry in a moment.');
+      }
+      const token = await messaging.getToken({
+        vapidKey: config.vapidKey,
+        serviceWorkerRegistration: registration
+      });
+      if (!token) throw new Error('Firebase did not return a push token.');
+
+      const response = await fetch('/api/notifications/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ token, platform: 'web' })
+      });
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.error || 'The server could not register this device. Sign in again and retry.');
+      }
+
+      messaging.onMessage(payload => {
+        const notification = payload.notification || {};
+        if (Notification.permission === 'granted') {
+          new Notification(notification.title || 'STEP-SAFE Alert', {
+            body: notification.body || 'A new foot-pressure alert has been received.',
+          });
+        }
+      });
+      setPushButtonState(button, 'Push notifications enabled', true);
+    } catch (error) {
+      console.warn('[STEP-SAFE] Push setup:', error);
+      setPushButtonState(button, error.message || 'Could not enable notifications', false);
+      firebasePushSetupPromise = null;
+    }
+  })();
+  return firebasePushSetupPromise;
+}
+
+function addPushNotificationControl() {
+  const wrapper = $('notifWrapper');
+  if (!wrapper || $('enablePushNotifications')) return;
+  const button = document.createElement('button');
+  button.id = 'enablePushNotifications';
+  button.type = 'button';
+  button.className = 'btn-secondary';
+  button.textContent = 'Enable push notifications';
+  button.addEventListener('click', () => initializeFirebasePush(button));
+  wrapper.appendChild(button);
+}
+
 function value(n, digits = 1) {
   return n == null ? '—' : Number(n).toFixed(digits);
 }
@@ -366,6 +456,8 @@ function renderUserInterface(data) {
     nav.appendChild(createNavBtn('Telemetry', () => switchView('telemetry'), true));
     nav.appendChild(createNavBtn('Admin Console', () => loadAdminConsole()));
   }
+
+  addPushNotificationControl();
 
   // Start polling notifications for logged in user
   pollNotifications();
